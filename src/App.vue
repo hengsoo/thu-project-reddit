@@ -77,10 +77,9 @@ export default {
         switch (error.response.status) {
           case 401:
             this.invalidateAuth()
-            this.$router.push('/login').then(
-              () => alert('Session expired')
-            ).catch(() => {
-            })
+            this.$swal('Hello Vue world!!!').then(
+              () => this.$router.push('/login')
+            )
             break
         }
         return Promise.reject(error.response)

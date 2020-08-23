@@ -19,6 +19,7 @@
     "axios": "^0.20.0",
     "tailwindcss": "^1.7.3",
     "vue-cookie": "^1.1.4",
+    "vue-sweetalert2": "^3.0.6",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
