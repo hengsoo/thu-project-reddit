@@ -23,7 +23,6 @@ export default {
   components: { Navigator },
   data () {
     return {
-      showMenu: false
     }
   }
 }

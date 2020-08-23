@@ -17,7 +17,9 @@
         <input
           class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           id="password" type="password" placeholder="Password" v-model="password" required>
+        <p class="text-red-500 text-xs italic" v-text="errorMessage"></p>
       </div>
+
       <div class="flex items-center justify-between">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -35,7 +37,8 @@ export default {
   data () {
     return {
       username: '2018080124',
-      password: '878112'
+      password: '878112',
+      errorMessage: ''
     }
   },
   methods: {
@@ -45,12 +48,24 @@ export default {
           username: this.username,
           password: this.password
         })
+          // If login succeeded, proceed to homepage or nextUrl
           .then(response => {
-            console.log(response)
-          })
+              // Get token and save it in cookie for 10 mins
+              const jwt = response.data.jwt
+              this.$cookie.set('user-token', jwt, { expires: '10m' })
+
+              if (this.$route.params.nextUrl != null) {
+                this.$router.push(this.$route.params.nextUrl)
+              } else {
+                this.$router.push('/')
+              }
+            }
+          )
+          // Else display error
           .catch(function (error) {
             console.error(error.response)
-          })
+            this.errorMessage = error.response.data.message
+          }).bind(this)
       }
     }
   }
