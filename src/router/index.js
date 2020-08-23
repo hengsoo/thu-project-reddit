@@ -26,7 +26,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  linkExactActiveClass: 'bg-white rounded p-1 font-semibold text-teal-400'
 })
 
 router.beforeEach((to, from, next) => {
