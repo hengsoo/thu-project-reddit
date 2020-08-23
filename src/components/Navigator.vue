@@ -1,6 +1,6 @@
 <template>
 
-  <nav class="bg-teal-500 p-3 pb-1">
+  <nav class="bg-teal-500 px-3 py-1">
     <div class="container mx-auto flex items-baseline justify-between flex-wrap ">
       <div class="flex items-center flex-shrink-0 text-white mr-6 ml-3">
         <span class="font-semibold text-3xl tracking-tight">Tokok</span>

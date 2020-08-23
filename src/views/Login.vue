@@ -57,9 +57,9 @@ export default {
               this.$emit('authenticated')
 
               if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl)
+                this.$router.push(this.$route.params.nextUrl).catch(()=>{})
               } else {
-                this.$router.push('/')
+                this.$router.push('/').catch(()=>{})
               }
             }
           )
