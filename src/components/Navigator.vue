@@ -1,6 +1,6 @@
 <template>
 
-  <nav class="bg-teal-500 px-3 py-1">
+  <nav class="bg-teal-500 px-3 pt-3 pb-2">
     <div class="container mx-auto flex items-baseline justify-between flex-wrap ">
       <div class="flex items-center flex-shrink-0 text-white mr-6 ml-3">
         <span class="font-semibold text-3xl tracking-tight">Tokok</span>
@@ -19,12 +19,10 @@
            v-bind:class='{block: showMenu, hidden: !showMenu}'>
 
         <div class="text-sm flex-grow ml-4 md:ml-0" v-bind:class='{hidden: !isAuth}'>
-
           <slot></slot>
-
         </div>
 
-        <div class="ml-4 md:ml-0" v-bind:class='{block: isAuth, hidden: !isAuth}'>
+        <div class="ml-4 md:ml-0 items-center  pb-2" :class='{flex: isAuth, hidden: !isAuth}'>
           <slot name="button"></slot>
         </div>
 
@@ -38,7 +36,7 @@
 export default {
   name: 'Navigator',
   props: {
-    isAuth: Boolean
+    isAuth: Boolean,
   },
   data () {
     return {
