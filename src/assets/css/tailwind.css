@@ -1,5 +1,10 @@
 /*noinspection CssInvalidAtRule*/
 @tailwind base;
+
+body, html, #app {
+    height: 100%;
+}
+
 /*noinspection CssInvalidAtRule*/
 @tailwind components;
 /*noinspection CssInvalidAtRule*/

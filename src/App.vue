@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="h-screen bg-teal-100 ">
 
     <nav class="bg-teal-500 p-3">
 
@@ -40,6 +40,7 @@
     </nav>
 
     <router-view/>
+
   </div>
 </template>
 
