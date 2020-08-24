@@ -52,6 +52,13 @@ export default {
       this._handleOnHttpFulfilled,
       this._handleOnHttpError
     )
+
+    const jwt = this.$cookie.get('user-token')
+    if ( jwt != null){
+      this.$http.defaults.headers.common['Authorization'] = jwt
+      this.validateAuth()
+    }
+
   },
 
   methods: {

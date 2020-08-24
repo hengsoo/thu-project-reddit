@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import VueCookie from 'vue-cookie'
 import Home from '../views/Home.vue'
 
-Vue.use(VueCookie);
+Vue.use(VueCookie)
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,12 +27,13 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  linkExactActiveClass: 'bg-white rounded p-1 font-semibold text-teal-400'
+  linkExactActiveClass: 'bg-white rounded p-1 font-semibold text-teal-400 hover:text-teal-300'
 })
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (Vue.cookie.get('user-token') == null) {
+    const jwt = Vue.cookie.get('user-token')
+    if (jwt == null) {
       next({
         path: '/login',
         params: { nextUrl: to.fullPath }
