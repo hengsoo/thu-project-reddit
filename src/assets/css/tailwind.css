@@ -1,8 +1,12 @@
 /*noinspection CssInvalidAtRule*/
 @tailwind base;
 
-body, html, #app {
-    height: 100%;
+html {
+    min-height: 100%;
+}
+
+body {
+   @apply bg-teal-100
 }
 
 /*noinspection CssInvalidAtRule*/

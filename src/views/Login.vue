@@ -1,6 +1,4 @@
 <template>
-
-  <div class="bg-teal-100 h-full">
   <div class="max-w-sm mx-auto p-5 mt-10">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="mb-4">
@@ -30,8 +28,6 @@
       </div>
     </form>
   </div>
-  </div>
-
 </template>
 
 <script>
@@ -55,13 +51,15 @@ export default {
               // Get token and save it in cookie for 10 mins
               const jwt = response.data.jwt
               this.$cookie.set('user-token', jwt, { expires: '10m' })
-              this.$http.defaults.headers.common['Authorization'] = jwt;
+              this.$http.defaults.headers.common['Authorization'] = jwt
               this.$emit('authenticated')
 
               if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl).catch(()=>{})
+                this.$router.push(this.$route.params.nextUrl).catch(() => {
+                })
               } else {
-                this.$router.push('/').catch(()=>{})
+                this.$router.push('/').catch(() => {
+                })
               }
             }
           )

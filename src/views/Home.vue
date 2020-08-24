@@ -57,23 +57,27 @@ const xss = require('xss')
 const moment = require('moment')
 
 export default {
+  name: 'Home',
+
   data () {
     return {
       queryParams: {
         page: 1,
-        size: 20,
-        userId: 87
+        size: 10,
       },
-      allPosts: []
+      allPosts: [],
+      isLoading: false
     }
   },
 
   mounted () {
     this.getAllPost()
+    this.scroll()
   },
 
   methods: {
     getAllPost () {
+      this.isLoading = true
       this.$http.get('/api/v1/post', { params: this.queryParams }).then(
         response => {
           response.data['posts'].forEach(
@@ -98,7 +102,7 @@ export default {
               }
 
               const postCreated = moment(post.created)
-              console.log(moment().diff(postCreated, 'days'))
+
               if (moment().diff(postCreated, 'days') < 3) {
                 post.created = postCreated.fromNow()
               } else {
@@ -106,10 +110,26 @@ export default {
               }
 
               this.allPosts.push(post)
+              this.isLoading = false
             }
           )
         }
       ).catch(error => console.error('View All Post Failed: ', error))
+    },
+
+    scroll () {
+
+      window.onscroll = () => {
+        if (this.$route.name !== 'Home') return
+
+        let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight
+          >= document.documentElement.offsetHeight / 2
+
+        if (bottomOfWindow && this.isLoading === false) {
+          this.queryParams.page += 1
+          this.getAllPost()
+        }
+      }
     },
 
   }
