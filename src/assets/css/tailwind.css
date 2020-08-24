@@ -10,3 +10,14 @@ body, html, #app {
 /*noinspection CssInvalidAtRule*/
 @tailwind utilities;
 
+.max-h-sm {
+    max-height: 24rem;
+}
+
+.max-h-md {
+    max-height: 28rem;
+}
+
+.max-h-lg {
+    max-height: 32rem;
+}

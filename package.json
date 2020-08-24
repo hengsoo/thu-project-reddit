@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "moment": "^2.27.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
   },
@@ -20,7 +21,8 @@
     "tailwindcss": "^1.7.3",
     "vue-cookie": "^1.1.4",
     "vue-sweetalert2": "^3.0.6",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.11",
+    "xss": "^1.0.8"
   },
   "eslintConfig": {
     "root": true,

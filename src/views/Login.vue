@@ -1,5 +1,6 @@
 <template>
 
+  <div class="bg-teal-100 h-full">
   <div class="max-w-sm mx-auto p-5 mt-10">
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="mb-4">
@@ -28,6 +29,7 @@
         </button>
       </div>
     </form>
+  </div>
   </div>
 
 </template>

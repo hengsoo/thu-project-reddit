@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="h-screen bg-teal-100 ">
+  <div id="app" class="bg-teal-100 ">
 
     <Navigator :is-auth="isAuth">
       <router-link to="/" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 w-auto">
@@ -21,7 +21,10 @@
 
     </Navigator>
 
-    <router-view @authenticated="validateAuth"/>
+    <keep-alive>
+      <router-view @authenticated="validateAuth"/>
+    </keep-alive>
+
 
   </div>
 </template>
@@ -47,7 +50,7 @@ export default {
     }
   },
 
-  mounted () {
+  beforeMount () {
     this.$http.interceptors.response.use(
       this._handleOnHttpFulfilled,
       this._handleOnHttpError
@@ -99,6 +102,7 @@ export default {
 
     _handleOnHttpError (error) {
       if (error.response.status) {
+        console.log('aaaa', error.response.status)
         switch (error.response.status) {
           case 401:
             this.invalidateAuth()
@@ -111,6 +115,13 @@ export default {
               () => this.$router.push('/login').catch()
             )
             break
+          case 404:
+            this.$swal({
+              title: 'Error 404!',
+              text: 'Path not found',
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            })
         }
         return Promise.reject(error.response)
       }
