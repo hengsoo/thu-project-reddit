@@ -21,7 +21,7 @@
 
     </Navigator>
 
-    <keep-alive>
+    <keep-alive include="Home">
       <router-view @authenticated="validateAuth"/>
     </keep-alive>
 
