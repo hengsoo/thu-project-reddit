@@ -2,7 +2,8 @@
 
   <nav class="bg-teal-500 px-3 pt-3 pb-2">
     <div class="container mx-auto sm:px-10 flex items-baseline justify-between flex-wrap ">
-      <div class="flex items-center flex-shrink-0 text-white mr-6 ml-3">
+      <div class="flex items-center flex-shrink-0 text-white mr-6 ml-3 cursor-pointer"
+           @click="$router.replace('/').catch(err =>{})">
         <span class="font-semibold text-3xl tracking-tight">Tokok</span>
       </div>
 
