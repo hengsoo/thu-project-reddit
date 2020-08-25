@@ -129,7 +129,7 @@ export default {
               title: 'Error 404!',
               text: 'Path not found',
               icon: 'error',
-              confirmButtonText: 'Ok'
+              confirmButtonText: 'Take me back'
             }).then(
               () => this.$router.back()
             )

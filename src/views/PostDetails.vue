@@ -15,7 +15,7 @@
     </div>
 
     <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
-      <h2 class="text-left text-base italic">Comments</h2>
+      <h2 class="text-left text-lg italic">Comments</h2>
       <div>
         <Reply :replies="nestedReplies"/>
       </div>
