@@ -61,8 +61,10 @@ export default {
               this.$http.defaults.headers.common['Authorization'] = jwt
               this.$emit('authenticated')
 
-              if (this.$route.params.nextUrl != null) {
-                this.$router.push(this.$route.params.nextUrl).catch(() => {
+              const nextUrl = this.$route.query.nextUrl
+
+              if ( nextUrl != null) {
+                this.$router.push(nextUrl.toString()).catch(() => {
                 })
               } else {
                 this.$router.push('/').catch(() => {

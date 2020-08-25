@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
     if (jwt == null) {
       next({
         path: '/login',
-        params: { nextUrl: to.fullPath }
+        query: { nextUrl: to.fullPath }
       })
     } else {
       next()

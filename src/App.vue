@@ -52,8 +52,8 @@ export default {
     },
 
     props () {
-      if ( this.$route.name === 'Profile'){
-        return { userData: this.userData}
+      if (this.$route.name === 'Profile') {
+        return { userData: this.userData }
       }
     }
   },
@@ -69,7 +69,6 @@ export default {
       this.$http.defaults.headers.common['Authorization'] = jwt
       this.validateAuth()
     }
-
   },
 
   methods: {
@@ -119,7 +118,10 @@ export default {
               icon: 'error',
               confirmButtonText: 'Back to login'
             }).then(
-              () => this.$router.push('/login').catch()
+              () => this.$router.push({
+                path: '/login',
+                query: { nextUrl: this.$route.path }
+              }).catch()
             )
             break
           case 404:
@@ -128,7 +130,9 @@ export default {
               text: 'Path not found',
               icon: 'error',
               confirmButtonText: 'Ok'
-            })
+            }).then(
+              () => this.$router.back()
+            )
         }
         return Promise.reject(error.response)
       }

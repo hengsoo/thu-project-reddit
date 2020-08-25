@@ -14,7 +14,7 @@
 
     </div>
 
-    <div v-if="replies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
+    <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <h2 class="text-left text-base italic">Comments</h2>
       <div>
         <Reply :replies="nestedReplies"/>
@@ -29,17 +29,21 @@
 
 import CircularProgress from '@/components/CircularProgress'
 import Reply from '@/components/Reply'
+
 const xss = require('xss')
 const moment = require('moment')
 
 export default {
   name: 'PostDetails',
-  components: { Reply, CircularProgress },
+  components: {
+    Reply,
+    CircularProgress
+  },
   data () {
     return {
       title: '',
       content: '',
-      replies: []
+      rawReplies: []
     }
   },
 
@@ -48,13 +52,13 @@ export default {
       .then((response) => {
         this.title = response.data.title
         this.content = xss(response.data.content)
-        this.replies = response.data.reply
+        this.rawReplies = response.data.reply
       }).catch(err => console.error('Get Post Details failed: ', err))
   },
 
   computed: {
     nestedReplies () {
-      return this.nestReplies(this.replies)
+      return this.nestReplies(this.rawReplies)
     }
   },
 
@@ -71,6 +75,9 @@ export default {
         (reply) => {
           // Sanitize content
           reply['content'] = xss(reply['content'])
+          // Parse Updated time
+          reply['datetime'] =  moment(reply['updated']).fromNow()
+
           reply['children'] = this.nestReplies(replies, reply.id)
           nestedData.push(reply)
         })

@@ -81,15 +81,15 @@ export default {
 
   props: {
     postPerPage: {
-      type:Number,
+      type: Number,
       default: 10
     },
     userId: {
-      type:Number,
+      type: Number,
       default: null
     },
     routeName: {
-      type:String,
+      type: String,
       required: true
     }
   },
@@ -155,13 +155,7 @@ export default {
                 post.summary += ' ...'
               }
 
-              const postCreated = moment(post.created)
-
-              if (moment().diff(postCreated, 'days') < 3) {
-                post.created = postCreated.fromNow()
-              } else {
-                post.created = postCreated.format('DD-MM-YYYY')
-              }
+              post.created = moment(post.created).fromNow()
 
               this.allPosts.push(post)
               this.isLoading = false
