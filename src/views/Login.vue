@@ -39,6 +39,13 @@ export default {
       errorMessage: ''
     }
   },
+
+  beforeCreate () {
+    if (this.$cookie.get('user-token') != null) {
+      this.$router.push('/')
+    }
+  },
+
   methods: {
     handleSubmit () {
       if (this.password.length > 0) {
