@@ -1,9 +1,9 @@
 <template>
 
-  <div class="container p-5 mx-auto flex flex-col justify-center max-w-lg bg-teal-100 post-board">
+  <div class="container p-5 mx-auto flex flex-col items-center max-w-lg post-board">
     <!--  Infinite List of Posts    -->
     <div v-for="post in allPosts"
-         class="max-w-sm lg:max-w-md rounded overflow-hidden shadow-lg bg-white my-2">
+         class="w-full rounded overflow-hidden shadow-lg bg-white my-2">
 
       <!--  Post   -->
       <div class="px-6 py-4 cursor-pointer hover:bg-gray-100"
@@ -191,8 +191,8 @@ export default {
 <style>
 .post-board img {
   margin: 0 auto;
-  height: 90px;
-  width: 90px;
+  height: 60px;
+  width: 60px;
   background-size: cover;
 }
 

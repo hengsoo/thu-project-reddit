@@ -2,7 +2,7 @@
   <div id="app" class="bg-teal-100 ">
 
     <Navigator :is-auth="isAuth">
-      
+
       <router-link to="/" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 w-auto">
         Home
       </router-link>
