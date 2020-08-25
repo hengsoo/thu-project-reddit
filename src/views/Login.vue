@@ -22,21 +22,27 @@
       <div class="flex items-center justify-between">
         <button
           class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button" @click.prevent="handleSubmit">
+          type="button" @click.prevent="isLoading === false ? handleSubmit(): null"
+          :class="{disabled: isLoading}">
           Sign In
         </button>
+        <CircularProgress v-if="isLoading" class="h-1 pr-8"/>
       </div>
     </form>
   </div>
 </template>
 
 <script>
+import CircularProgress from '@/components/CircularProgress'
+
 export default {
+  components: { CircularProgress },
   data () {
     return {
       username: '2018080124',
       password: '878112',
-      errorMessage: ''
+      errorMessage: '',
+      isLoading: false
     }
   },
 
@@ -48,6 +54,7 @@ export default {
 
   methods: {
     handleSubmit () {
+      this.isLoading = true
       if (this.password.length > 0) {
         this.$http.patch('/api/v1/login', {
           username: this.username,
@@ -61,9 +68,11 @@ export default {
               this.$http.defaults.headers.common['Authorization'] = jwt
               this.$emit('authenticated')
 
+              this.isLoading = false
+
               const nextUrl = this.$route.query.nextUrl
 
-              if ( nextUrl != null) {
+              if (nextUrl != null) {
                 this.$router.push(nextUrl.toString()).catch(() => {
                 })
               } else {
@@ -83,3 +92,9 @@ export default {
 }
 
 </script>
+
+<style scoped>
+.disabled {
+  @apply bg-blue-500 text-white font-bold py-2 px-4 rounded opacity-50 cursor-not-allowed
+}
+</style>

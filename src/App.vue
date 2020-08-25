@@ -15,7 +15,8 @@
         <p v-text="userNickname" class="mx-3 text-white font-semibold hidden md:block"></p>
         <a href="#"
            class="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white
-             hover:border-transparent hover:text-teal-500 hover:bg-white mt-3 md:mt-0"
+             hover:border-transparent hover:text-teal-500 hover:bg-white
+             focus:border-transparent focus:text-teal-500 focus:bg-white mt-3 md:mt-0"
            @click="logout">
           Logout
         </a>
