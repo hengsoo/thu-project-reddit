@@ -17,7 +17,7 @@
     <div v-if="replies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <h2 class="text-left text-base italic">Comments</h2>
       <div>
-        <Reply :replies="replies"/>
+        <Reply :replies="nestedReplies"/>
       </div>
     </div>
 
@@ -52,7 +52,32 @@ export default {
       }).catch(err => console.error('Get Post Details failed: ', err))
   },
 
-  computed: {}
+  computed: {
+    nestedReplies () {
+      return this.nestReplies(this.replies)
+    }
+  },
+
+  methods: {
+    nestReplies (replies, currentID = 0) {
+      if (replies.length === 0) return []
+
+      let nestedData = []
+      let repliesOfCurrentID = replies.filter((reply) => reply['replyId'] === currentID)
+      // Remove extracted replies
+      replies = replies.filter((reply) => repliesOfCurrentID.indexOf(reply) === -1)
+
+      repliesOfCurrentID.forEach(
+        (reply) => {
+          // Sanitize content
+          reply['content'] = xss(reply['content'])
+          reply['children'] = this.nestReplies(replies, reply.id)
+          nestedData.push(reply)
+        })
+
+      return nestedData
+    }
+  }
 }
 </script>
 
