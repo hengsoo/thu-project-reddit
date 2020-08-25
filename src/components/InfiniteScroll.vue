@@ -62,7 +62,7 @@
     </div>
 
     <h2 v-if="endOfAllPosts" class="max-w-sm lg:max-w-md text-center text-gray-600">
-      — End of all Posts —
+      — Hooray! You have reached the end. —
     </h2>
 
   </div>
