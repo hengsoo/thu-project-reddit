@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VueCookie from 'vue-cookie'
-import Home from '@/views/Home.vue'
+import Home from '@/views/Home'
 import PostDetails from '@/views/PostDetails'
 import UserDetails from '@/views/UserDetails'
 

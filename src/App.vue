@@ -102,7 +102,6 @@ export default {
 
     _handleOnHttpError (error) {
       if (error.response.status) {
-        console.log('aaaa', error.response.status)
         switch (error.response.status) {
           case 401:
             this.invalidateAuth()
