@@ -36,7 +36,7 @@ export default {
     this.$http.get('/api/v1/post/' + this.$route.params.id)
       .then((response) => {
         this.title = response.data.title
-        this.content = response.data.content
+        this.content = xss(response.data.content)
       }).catch(err => console.error('Get Post Details failed: ', err))
   },
 

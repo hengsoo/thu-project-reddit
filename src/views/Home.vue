@@ -1,5 +1,8 @@
 <template>
-  <InfiniteScroll route-name="Home" />
+  <div class="container p-5 mx-auto flex flex-col items-center">
+    <InfiniteScroll route-name="Home"/>
+  </div>
+
 </template>
 
 <script>

@@ -1,6 +1,9 @@
 <template>
 
-  <div class="container p-5 mx-auto flex flex-col items-center max-w-lg post-board">
+  <div class="w-full md:mr-20 flex flex-col items-center max-w-lg post-board">
+
+    <CircularProgress v-if="allPosts.length === 0" class="w-full rounded bg-white my-2"/>
+
     <!--  Infinite List of Posts    -->
     <div v-for="post in allPosts"
          class="w-full rounded overflow-hidden shadow-lg bg-white my-2">
@@ -67,11 +70,14 @@
 </template>
 
 <script>
+import CircularProgress from '@/components/circular-progress'
+
 const xss = require('xss')
 const moment = require('moment')
 
 export default {
   name: 'InfiniteScroll',
+  components: { CircularProgress },
 
   props: {
     postPerPage: {

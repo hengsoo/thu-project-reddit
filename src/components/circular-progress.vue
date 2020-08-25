@@ -1,6 +1,6 @@
 <template>
-  <div class="flex items-center justify-center max-w-sm">
-    <div class="circular-loader"></div>
+  <div class="flex items-center justify-center max-w-sm mx-auto">
+    <div class="circular-loader m-5"></div>
   </div>
 </template>
 
@@ -17,7 +17,6 @@ export default {
   border-radius: 50%;
   width: 30px;
   height: 30px;
-  margin: 5px;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
 }
