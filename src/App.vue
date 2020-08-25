@@ -2,13 +2,15 @@
   <div id="app" class="bg-teal-100 ">
 
     <Navigator :is-auth="isAuth">
+      
       <router-link to="/" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 w-auto">
         Home
       </router-link>
 
-      <router-link to="/a" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4">
-        Home
+      <router-link to="/profile" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4">
+        My Profile
       </router-link>
+
       <template v-slot:button>
         <p v-text="userNickname" class="mx-3 text-white font-semibold hidden md:block"></p>
         <a href="#"
@@ -22,7 +24,7 @@
     </Navigator>
 
     <keep-alive include="Home">
-      <router-view @authenticated="validateAuth"/>
+      <router-view @authenticated="validateAuth" v-bind="props"/>
     </keep-alive>
 
 
@@ -45,8 +47,14 @@ export default {
   },
 
   computed: {
-    userNickname: function () {
+    userNickname () {
       return this.userData?.nickname
+    },
+
+    props () {
+      if ( this.$route.name === 'Profile'){
+        return { userData: this.userData}
+      }
     }
   },
 
@@ -57,7 +65,7 @@ export default {
     )
 
     const jwt = this.$cookie.get('user-token')
-    if ( jwt != null){
+    if (jwt != null) {
       this.$http.defaults.headers.common['Authorization'] = jwt
       this.validateAuth()
     }

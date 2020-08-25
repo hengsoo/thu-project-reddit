@@ -4,6 +4,8 @@ import VueCookie from 'vue-cookie'
 import Home from '@/views/Home'
 import PostDetails from '@/views/PostDetails'
 import UserDetails from '@/views/UserDetails'
+import Login from '@/views/Login'
+import Profile from '@/views/Profile'
 
 Vue.use(VueCookie)
 Vue.use(VueRouter)
@@ -20,10 +22,12 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
+    component: Login
+  },
+  {
+    path: '/profile',
+    name: 'Profile',
+    component: Profile
   },
   {
     path: '/post/:id',
