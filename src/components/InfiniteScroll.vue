@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import CircularProgress from '@/components/circular-progress'
+import CircularProgress from '@/components/CircularProgress'
 
 const xss = require('xss')
 const moment = require('moment')

@@ -1,7 +1,7 @@
 <template>
   <div class="container p-5 mx-auto flex flex-col items-center max-w-xl">
     <!--  Infinite List of Posts    -->
-    <div class="w-full rounded overflow-hidden shadow-lg bg-white my-2">
+    <div class="w-full md:mr-20 rounded overflow-hidden shadow-lg bg-white my-2">
 
       <CircularProgress v-if="content === ''"/>
       <!--  Post   -->
@@ -18,7 +18,7 @@
 
 <script>
 
-import CircularProgress from '@/components/circular-progress'
+import CircularProgress from '@/components/CircularProgress'
 const xss = require('xss')
 const moment = require('moment')
 
