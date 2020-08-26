@@ -13,7 +13,6 @@ blockquote {
     border-left: 3px solid rgba(0, 0, 0, .1);
     color: rgba(0, 0, 0, .8);
     padding-left: .8rem;
-    margin: 1rem 0;
     font-style: italic;
 }
 
@@ -48,6 +47,15 @@ h2 {
 h3 {
     font-size: 1.17em;
     font-weight: bolder
+}
+
+code{
+    padding: .2rem .4rem;
+    border-radius: 5px;
+    font-size: .8rem;
+    font-weight: 700;
+    background: rgba(0,0,0,.1);
+    color: rgba(0,0,0,.8);
 }
 
 /*noinspection CssInvalidAtRule*/

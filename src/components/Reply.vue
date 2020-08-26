@@ -26,7 +26,7 @@
 
 <script>
 
-import Editor from '@/components/Editor'
+import Editor from '@/components/WysiwygEditor'
 
 export default {
   name: 'Reply',

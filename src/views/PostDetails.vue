@@ -13,7 +13,16 @@
       </div>
 
     </div>
-    <Editor></Editor>
+
+    <WysiwygEditor class="w-full">
+      <div class="m-2 flex justify-end" slot="footer">
+        <button
+          class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+            focus:outline-none focus:shadow-outline" type="button">
+          Sign In
+        </button>
+      </div>
+    </WysiwygEditor>
 
     <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <h2 class="text-left text-lg italic">Comments</h2>
@@ -30,7 +39,8 @@
 
 import CircularProgress from '@/components/CircularProgress'
 import Reply from '@/components/Reply'
-import Editor from '@/components/Editor'
+import Editor from '@/components/WysiwygEditor'
+import WysiwygEditor from '@/components/WysiwygEditor'
 
 const xss = require('xss')
 const moment = require('moment')
@@ -38,6 +48,7 @@ const moment = require('moment')
 export default {
   name: 'PostDetails',
   components: {
+    WysiwygEditor,
     Reply,
     CircularProgress,
     Editor
@@ -79,7 +90,7 @@ export default {
           // Sanitize content
           reply['content'] = xss(reply['content'])
           // Parse Updated time
-          reply['datetime'] =  moment(reply['updated']).fromNow()
+          reply['datetime'] = moment(reply['updated']).fromNow()
 
           reply['children'] = this.nestReplies(replies, reply.id)
           nestedData.push(reply)

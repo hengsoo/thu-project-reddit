@@ -1,8 +1,6 @@
 <template>
   <div class="max-w-sm mx-auto p-5 mt-10">
 
-    <Editor></Editor>
-
     <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
@@ -37,7 +35,7 @@
 
 <script>
 import CircularProgress from '@/components/CircularProgress'
-import Editor from '@/components/Editor'
+import Editor from '@/components/WysiwygEditor'
 
 export default {
   components: { Editor, CircularProgress },
