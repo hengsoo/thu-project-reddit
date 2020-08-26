@@ -18,12 +18,13 @@
         Reply
       </p>
 
-      <WysiwygEditor class="w-full hidden" :id="'reply-editor' + reply.id"
+      <WysiwygEditor class="w-full hidden" :ref="'reply-editor-' + reply.id"
                      placeholder="Write a reply...">
         <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
-            focus:outline-none focus:shadow-outline" type="button">
+          focus:outline-none focus:shadow-outline" type="button"
+            @click="submitReply(reply.id)">
             Reply
           </button>
         </div>
@@ -60,8 +61,12 @@ export default {
 
   methods: {
     toggleEditorState (replyId) {
-      document.getElementById('reply-editor' + replyId).classList.toggle('hidden')
+      this.$refs['reply-editor-' + replyId][0].$el.classList.toggle('hidden')
     },
+    submitReply(replyId){
+      const content = this.$refs['reply-editor-' + replyId][0].editor.getHTML()
+      console.log(content)
+    }
   },
 
 }

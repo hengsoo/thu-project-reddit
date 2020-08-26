@@ -104,9 +104,9 @@ import {
   Italic,
   ListItem,
   OrderedList,
+  Placeholder,
   Strike,
-  Underline,
-  Placeholder
+  Underline
 } from 'tiptap-extensions'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -143,15 +143,11 @@ export default {
     placeholder: {
       type: String,
       default: 'Write something here...'
-    }
+    },
   },
 
   data () {
     return {
-
-      isActive: false,
-
-      html: '',
 
       editor: new Editor({
         extensions: [new Blockquote(), new BulletList(), new HorizontalRule(), new Image(),
@@ -167,10 +163,6 @@ export default {
         ],
 
         content: this.content,
-        
-        onUpdate ({ getHTML }) {
-          this.html = getHTML()
-        },
       }),
 
     }
