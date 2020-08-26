@@ -6,8 +6,8 @@
 
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
 
-        <div class="flex menubar justify-center"
-             :class="{'hide-menu': !focused, 'show-menu': focused}">
+        <div class="flex flex-wrap menubar justify-center h-12 sm:h-5"
+             :class="{'hide-menu': focused, 'show-menu': !focused}">
 
           <button class="menubar-button" :class="{ 'is-active': isActive.bold() }"
                   @click="commands.bold">
@@ -204,7 +204,7 @@ export default {
 }
 
 .menubar.show-menu {
-  @apply opacity-100 h-6;
+  @apply opacity-100;
   transition-property: opacity, height;
   transition-duration: 0.25s;
   transition-timing-function: ease-out;
@@ -212,7 +212,7 @@ export default {
 }
 
 .menubar-button {
-  @apply p-2
+  @apply px-1 pt-1
 }
 
 .menubar-button:hover {
