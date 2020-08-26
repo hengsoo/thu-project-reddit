@@ -1,9 +1,14 @@
 <!--suppress ALL -->
 <template>
   <div class="bg-white rounded shadow-md my-2">
-    <div class="editor divide-y p-4  ">
-      <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar">
+
+    <div class="editor px-4">
+
+      <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
+
+        <div class="flex menubar justify-center"
+             :class="{'hide-menu': !focused, 'show-menu': focused}">
+
           <button class="menubar-button" :class="{ 'is-active': isActive.bold() }"
                   @click="commands.bold">
             <font-awesome-icon icon="bold"/>
@@ -76,9 +81,12 @@
           </button>
         </div>
       </editor-menu-bar>
-      <editor-content class="focus:border-none" :editor="editor"/>
+
+      <editor-content class="focus:border-none pt-2" :editor="editor"/>
     </div>
+
     <slot name="footer"></slot>
+
   </div>
 </template>
 
@@ -137,7 +145,7 @@ export default {
   data () {
     return {
 
-      isActive: true,
+      isActive: false,
 
       html: '',
 
@@ -149,7 +157,7 @@ export default {
 
         content: this.initialContent,
 
-        onUpdate: ({ getHTML }) => {
+        onUpdate ({ getHTML }) {
           this.html = getHTML()
         },
       }),
@@ -187,8 +195,24 @@ export default {
   outline: none;
 }
 
+.menubar.hide-menu {
+  @apply opacity-0 h-0;
+  transition-property: opacity, height;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  transition-delay: 0s, 0.25s;
+}
+
+.menubar.show-menu {
+  @apply opacity-100 h-6;
+  transition-property: opacity, height;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+  transition-delay: 0.25s, 0s;
+}
+
 .menubar-button {
-  @apply px-2 py-1
+  @apply p-2
 }
 
 .menubar-button:hover {
