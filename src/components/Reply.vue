@@ -13,9 +13,19 @@
 
       <div v-html="reply.content"></div>
       <p class="text-blue-500 text-sm font-semibold cursor-pointer"
-         @click="launchReplyEditor(reply.id)">
+         @click="showEditor=true">
         Reply
       </p>
+
+      <WysiwygEditor class="w-full" v-if="showEditor">
+        <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+            focus:outline-none focus:shadow-outline" type="button">
+            Reply
+          </button>
+        </div>
+      </WysiwygEditor>
 
       <Reply v-if="reply.children.length > 0" :replies="reply.children" class="pl-5 border-l-2"/>
 
@@ -26,17 +36,19 @@
 
 <script>
 
-import Editor from '@/components/WysiwygEditor'
+import WysiwygEditor from '@/components/WysiwygEditor'
 
 export default {
   name: 'Reply',
 
   components: {
-    Editor
+    WysiwygEditor
   },
 
   data () {
-    return {}
+    return {
+      showEditor: false
+    }
   },
 
   props: {
@@ -47,18 +59,7 @@ export default {
   },
 
   methods: {
-    launchReplyEditor (replyId) {
-      this.$swal({
-        title: '<strong>HTML <u>example</u></strong>',
-        html: `
-          <Editor></Editor>
-        `,
-        showConfirmButton: true,
-        focusConfirm: false,
-        reverseButtons: true,
-        showCancelButton: true,
-      })
-    }
+
   },
 
 }

@@ -14,16 +14,6 @@
 
     </div>
 
-    <WysiwygEditor class="w-full">
-      <div class="mt-1 mb-2 mx-2 flex justify-end" slot="footer">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
-            focus:outline-none focus:shadow-outline" type="button">
-          Sign In
-        </button>
-      </div>
-    </WysiwygEditor>
-
     <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <h2 class="text-left text-lg italic">Comments</h2>
       <div>
