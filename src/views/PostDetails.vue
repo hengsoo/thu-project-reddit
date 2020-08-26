@@ -31,6 +31,7 @@ import CircularProgress from '@/components/CircularProgress'
 import Reply from '@/components/Reply'
 import Editor from '@/components/WysiwygEditor'
 import WysiwygEditor from '@/components/WysiwygEditor'
+import { EventBus } from '@/helpers/EventBus'
 
 const xss = require('xss')
 const moment = require('moment')
@@ -51,13 +52,15 @@ export default {
     }
   },
 
-  beforeCreate () {
-    this.$http.get('/api/v1/post/' + this.$route.params.id)
+  beforeMount () {
+    this.getPostDetails()
       .then((response) => {
         this.title = response.data.title
         this.content = xss(response.data.content)
         this.rawReplies = response.data.reply
       }).catch(err => console.error('Get Post Details failed: ', err))
+
+    EventBus.$on('post-update-reply', this.getPostReplies)
   },
 
   computed: {
@@ -67,6 +70,19 @@ export default {
   },
 
   methods: {
+
+    getPostDetails(){
+      return this.$http.get('/api/v1/post/' + this.$route.params.id)
+    },
+
+    getPostReplies (){
+      this.getPostDetails()
+        .then((response) => {
+          console.log('ok')
+          this.rawReplies = response.data.reply
+        }).catch(err => console.error('Get Post Replies failed: ', err))
+    },
+
     nestReplies (replies, currentID = 0) {
       if (replies.length === 0) return []
 

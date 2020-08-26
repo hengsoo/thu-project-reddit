@@ -24,7 +24,7 @@
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
           focus:outline-none focus:shadow-outline" type="button"
-            @click="submitReply(reply.id)">
+            @click="submitReply(reply.postId, reply.id)">
             Reply
           </button>
         </div>
@@ -40,6 +40,7 @@
 <script>
 
 import WysiwygEditor from '@/components/WysiwygEditor'
+import { EventBus } from '@/helpers/EventBus'
 
 export default {
   name: 'Reply',
@@ -61,11 +62,24 @@ export default {
 
   methods: {
     toggleEditorState (replyId) {
-      this.$refs['reply-editor-' + replyId][0].$el.classList.toggle('hidden')
+      const replyEditor = this.$refs['reply-editor-' + replyId][0]
+      replyEditor.$el.classList.toggle('hidden')
+      replyEditor.editor.clearContent()
     },
-    submitReply(replyId){
+
+    submitReply (postId, replyId) {
+
       const content = this.$refs['reply-editor-' + replyId][0].editor.getHTML()
-      console.log(content)
+
+      this.$http.post('/api/v1/post/' + postId + '/reply', {
+        replyId: replyId,
+        content: content
+      })
+        .then(res => {
+          EventBus.$emit('post-update-reply')
+          this.toggleEditorState(replyId)
+        })
+        .catch(error => console.error('Submit Reply Failed: ', error))
     }
   },
 
