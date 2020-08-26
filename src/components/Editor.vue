@@ -172,6 +172,7 @@ export default {
   data () {
     return {
       isActive: true,
+      html: '',
       editor: new Editor({
         extensions: [
           new Blockquote(),
@@ -196,6 +197,9 @@ export default {
             Click into this text to see the menu. Click outside and the menu will disappear. It's like magic.
           </p>
         `,
+        onUpdate: ({ getHTML }) => {
+          this.html = getHTML()
+        },
       }),
     }
   },
