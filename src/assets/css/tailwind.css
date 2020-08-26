@@ -6,7 +6,48 @@ html {
 }
 
 body {
-   @apply bg-teal-100
+    @apply bg-teal-100
+}
+
+blockquote {
+    border-left: 3px solid rgba(0, 0, 0, .1);
+    color: rgba(0, 0, 0, .8);
+    padding-left: .8rem;
+    margin: 1rem 0;
+    font-style: italic;
+}
+
+blockquote:first-child {
+    margin-top: 0;
+}
+
+blockquote:last-child {
+    margin-bottom: 0;
+}
+
+ul {
+    list-style-type: disc;
+    padding-left: 18px;
+}
+
+ol {
+    list-style-type: decimal;
+    padding-left: 18px;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bolder
+}
+
+h2 {
+    font-size: 1.5em;
+    font-weight: bolder
+}
+
+h3 {
+    font-size: 1.17em;
+    font-weight: bolder
 }
 
 /*noinspection CssInvalidAtRule*/
@@ -25,3 +66,4 @@ body {
 .max-h-lg {
     max-height: 32rem;
 }
+

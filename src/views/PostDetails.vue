@@ -13,6 +13,7 @@
       </div>
 
     </div>
+    <Editor></Editor>
 
     <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <h2 class="text-left text-lg italic">Comments</h2>
@@ -29,6 +30,7 @@
 
 import CircularProgress from '@/components/CircularProgress'
 import Reply from '@/components/Reply'
+import Editor from '@/components/Editor'
 
 const xss = require('xss')
 const moment = require('moment')
@@ -37,7 +39,8 @@ export default {
   name: 'PostDetails',
   components: {
     Reply,
-    CircularProgress
+    CircularProgress,
+    Editor
   },
   data () {
     return {
