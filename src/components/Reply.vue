@@ -12,12 +12,14 @@
       </div>
 
       <div v-html="reply.content"></div>
+
       <p class="text-blue-500 text-sm font-semibold cursor-pointer"
-         @click="showEditor=true">
+         @click="toggleEditorState(reply.id)">
         Reply
       </p>
 
-      <WysiwygEditor class="w-full" v-if="showEditor">
+      <WysiwygEditor class="w-full hidden" :id="'reply-editor' + reply.id"
+                     placeholder="Write a reply...">
         <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
@@ -46,9 +48,7 @@ export default {
   },
 
   data () {
-    return {
-      showEditor: false
-    }
+    return {}
   },
 
   props: {
@@ -59,7 +59,9 @@ export default {
   },
 
   methods: {
-
+    toggleEditorState (replyId) {
+      document.getElementById('reply-editor' + replyId).classList.toggle('hidden')
+    },
   },
 
 }

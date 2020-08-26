@@ -7,7 +7,7 @@
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
 
         <div class="flex flex-wrap menubar justify-center h-12 sm:h-5"
-             :class="{'hide-menu': focused, 'show-menu': !focused}">
+             :class="{'hide-menu': !focused, 'show-menu': focused}">
 
           <button class="menubar-button" :class="{ 'is-active': isActive.bold() }"
                   @click="commands.bold">
@@ -105,7 +105,8 @@ import {
   ListItem,
   OrderedList,
   Strike,
-  Underline
+  Underline,
+  Placeholder
 } from 'tiptap-extensions'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -138,7 +139,10 @@ export default {
   props: {
     initialContent: {
       type: String,
-      default: `<h2>Hello World</h2><blockquote>This is amazing!</blockquote>`
+    },
+    placeholder: {
+      type: String,
+      default: 'Write something here...'
     }
   },
 
@@ -153,10 +157,17 @@ export default {
         extensions: [new Blockquote(), new BulletList(), new HorizontalRule(), new Image(),
           new ListItem(), new Heading({ levels: [1, 2, 3] }), new OrderedList(),
           new Bold(), new Code(), new Italic(), new Strike(), new Underline(), new History(),
+          new Placeholder({
+            emptyEditorClass: 'is-editor-empty',
+            emptyNodeClass: 'is-empty',
+            emptyNodeText: this.placeholder,
+            showOnlyWhenEditable: true,
+            showOnlyCurrent: true,
+          }),
         ],
 
-        content: this.initialContent,
-
+        content: this.content,
+        
         onUpdate ({ getHTML }) {
           this.html = getHTML()
         },
@@ -221,5 +232,14 @@ export default {
 
 .menubar-button:focus {
   outline: none
+}
+
+.editor p.is-editor-empty:first-child::before {
+  content: attr(data-empty-text);
+  float: left;
+  color: #aaa;
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
 }
 </style>
