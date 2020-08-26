@@ -14,12 +14,17 @@
 
     </div>
 
-    <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
+    <div class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <div class="inline-flex justify-between w-full items-baseline">
-        <h2 class="text-left text-lg italic">Comments</h2>
+
+        <h2 class="text-left text-lg italic">
+          {{ commentLabel }}
+        </h2>
+
         <p class="text-blue-500 text-sm cursor-pointer font-semibold"
            @click="showCommentEditor = !showCommentEditor">
-          Add a comment </p>
+          Add a comment
+        </p>
       </div>
 
       <WysiwygEditor class="w-full" ref="reply-editor-0" :class="{hidden: !showCommentEditor}"
@@ -88,6 +93,17 @@ export default {
   },
 
   computed: {
+    commentLabel(){
+      const label = 'Comment'
+      const commentCount = this.rawReplies.length
+
+      if ( commentCount > 1 ){
+        return label + 's' + ` (${commentCount})`
+      }else{
+        return label + ` (${commentCount})`
+      }
+
+    },
     nestedReplies () {
       return this.nestReplies(this.rawReplies)
     }

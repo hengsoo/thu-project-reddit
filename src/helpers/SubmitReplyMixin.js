@@ -7,10 +7,10 @@ let SubmitReplyMixin = {
       let replyEditor = this.$refs['reply-editor-' + replyId]
 
       if (!Array.isArray(replyEditor)) {
-        replyEditor = [replyEditor][0]
+        replyEditor = [replyEditor]
       }
-
-      return replyEditor
+      
+      return replyEditor[0]
     },
 
     submitReply (postId, replyId) {
