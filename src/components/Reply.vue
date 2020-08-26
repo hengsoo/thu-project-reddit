@@ -40,7 +40,7 @@
 <script>
 
 import WysiwygEditor from '@/components/WysiwygEditor'
-import { EventBus } from '@/helpers/EventBus'
+import SubmitReplyMixin from '@/helpers/SubmitReplyMixin'
 
 export default {
   name: 'Reply',
@@ -57,31 +57,10 @@ export default {
     replies: {
       type: Array,
       required: true
-    }
-  },
-
-  methods: {
-    toggleEditorState (replyId) {
-      const replyEditor = this.$refs['reply-editor-' + replyId][0]
-      replyEditor.$el.classList.toggle('hidden')
-      replyEditor.editor.clearContent()
     },
-
-    submitReply (postId, replyId) {
-
-      const content = this.$refs['reply-editor-' + replyId][0].editor.getHTML()
-
-      this.$http.post('/api/v1/post/' + postId + '/reply', {
-        replyId: replyId,
-        content: content
-      })
-        .then(res => {
-          EventBus.$emit('post-update-reply')
-          this.toggleEditorState(replyId)
-        })
-        .catch(error => console.error('Submit Reply Failed: ', error))
-    }
   },
+
+ mixins: [SubmitReplyMixin]
 
 }
 </script>

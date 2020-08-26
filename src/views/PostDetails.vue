@@ -15,7 +15,25 @@
     </div>
 
     <div v-if="rawReplies.length > 0" class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
-      <h2 class="text-left text-lg italic">Comments</h2>
+      <div class="inline-flex justify-between w-full items-baseline">
+        <h2 class="text-left text-lg italic">Comments</h2>
+        <p class="text-blue-500 text-sm cursor-pointer font-semibold"
+           @click="showCommentEditor = !showCommentEditor">
+          Add a comment </p>
+      </div>
+
+      <WysiwygEditor class="w-full" ref="reply-editor-0" :class="{hidden: !showCommentEditor}"
+                     placeholder="Add a comment...">
+        <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+          focus:outline-none focus:shadow-outline" type="button"
+            @click="submitReply(id, 0)">
+            Add Comment
+          </button>
+        </div>
+      </WysiwygEditor>
+
       <div>
         <Reply :replies="nestedReplies"/>
       </div>
@@ -32,12 +50,15 @@ import Reply from '@/components/Reply'
 import Editor from '@/components/WysiwygEditor'
 import WysiwygEditor from '@/components/WysiwygEditor'
 import { EventBus } from '@/helpers/EventBus'
+import SubmitReplyMixin from '@/helpers/SubmitReplyMixin'
 
 const xss = require('xss')
 const moment = require('moment')
 
 export default {
   name: 'PostDetails',
+
+  mixins:[SubmitReplyMixin],
   components: {
     WysiwygEditor,
     Reply,
@@ -46,15 +67,18 @@ export default {
   },
   data () {
     return {
+      id: 0,
       title: '',
       content: '',
-      rawReplies: []
+      rawReplies: [],
+      showCommentEditor: false
     }
   },
 
   beforeMount () {
     this.getPostDetails()
       .then((response) => {
+        this.id = response.data.id
         this.title = response.data.title
         this.content = xss(response.data.content)
         this.rawReplies = response.data.reply
@@ -71,11 +95,11 @@ export default {
 
   methods: {
 
-    getPostDetails(){
+    getPostDetails () {
       return this.$http.get('/api/v1/post/' + this.$route.params.id)
     },
 
-    getPostReplies (){
+    getPostReplies () {
       this.getPostDetails()
         .then((response) => {
           console.log('ok')
@@ -103,7 +127,8 @@ export default {
         })
 
       return nestedData
-    }
+    },
+
   }
 }
 </script>
