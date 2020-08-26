@@ -5,11 +5,20 @@
 
       <CircularProgress v-if="content === ''"/>
 
-      <div v-else class="px-6 py-4 divide-y divide-gray-400">
-        <!--    Title     -->
-        <div class="font-bold text-xl mb-2">{{ title }}</div>
-        <!--    Content    -->
-        <div v-html="content"></div>
+      <div v-else class="px-6 py-4">
+
+        <div class="inline-flex text-gray-600">
+          <div class="text-sm mr-2">Posted by {{ author }}</div>
+          <div class="text-sm">{{ datetime }}</div>
+        </div>
+
+        <div class="divide-y divide-gray-400">
+          <!--    Title     -->
+          <div class="font-bold text-xl mb-2">{{ title }}</div>
+          <!--    Content    -->
+          <div v-html="content" class="pt-2"></div>
+        </div>
+
       </div>
 
     </div>
@@ -75,6 +84,8 @@ export default {
       id: 0,
       title: '',
       content: '',
+      author: '',
+      datetime: '',
       rawReplies: [],
       showCommentEditor: false
     }
@@ -86,6 +97,8 @@ export default {
         this.id = response.data.id
         this.title = response.data.title
         this.content = xss(response.data.content)
+        this.author = response.data.nickname
+        this.datetime = moment(response.data['updated']).fromNow()
         this.rawReplies = response.data.reply
       }).catch(err => console.error('Get Post Details failed: ', err))
 
@@ -118,7 +131,6 @@ export default {
     getPostReplies () {
       this.getPostDetails()
         .then((response) => {
-          console.log('ok')
           this.rawReplies = response.data.reply
         }).catch(err => console.error('Get Post Replies failed: ', err))
     },

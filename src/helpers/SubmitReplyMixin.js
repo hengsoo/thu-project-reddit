@@ -9,7 +9,7 @@ let SubmitReplyMixin = {
       if (!Array.isArray(replyEditor)) {
         replyEditor = [replyEditor]
       }
-      
+
       return replyEditor[0]
     },
 
