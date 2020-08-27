@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import App from './App.vue'
+import store from '@/helpers/store'
 import router from './router'
 import Axios from 'axios'
 import VueSweetalert2 from 'vue-sweetalert2'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import store from '@/helpers/store'
+
 
 Vue.use(VueSweetalert2, { heightAuto: false })
 

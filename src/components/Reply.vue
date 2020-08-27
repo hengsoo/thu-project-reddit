@@ -81,12 +81,6 @@ export default {
     },
   },
 
-  computed:{
-    authUserId (){
-      return this.$store.state.userData.id
-    }
-  },
-
   mixins: [SubmitReplyMixin]
 
 }

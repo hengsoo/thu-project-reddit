@@ -51,6 +51,8 @@ export default {
   beforeCreate () {
     if (this.$cookie.get('user-token') != null) {
       this.$router.push('/')
+    } else {
+      this.$store.commit('setIsAuth', false)
     }
   },
 

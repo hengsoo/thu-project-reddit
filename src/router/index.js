@@ -50,10 +50,9 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const jwt = Vue.cookie.get('user-token')
     if (jwt == null) {
-      console.log(to.query)
       next({
         path: '/login',
-        query: { nextUrl: to.fullPath, queryParams: to.query }
+        query: { nextUrl: to.fullPath }
       })
     } else {
       next()

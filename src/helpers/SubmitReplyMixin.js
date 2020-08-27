@@ -2,6 +2,12 @@ import { EventBus } from '@/helpers/EventBus'
 
 let SubmitReplyMixin = {
 
+  computed:{
+    authUserId (){
+      return this.$store.state.userData.id
+    }
+  },
+
   methods: {
     findReplyEditor (replyId, edit = false) {
 

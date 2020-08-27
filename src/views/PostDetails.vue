@@ -7,16 +7,39 @@
 
       <div v-else class="px-6 py-4">
 
-        <div class="inline-flex text-gray-600">
-          <div class="text-sm mr-2">Posted by {{ author }}</div>
-          <div class="text-sm">{{ datetime }}</div>
+        <div class="inline-flex justify-between w-full">
+          <div class="inline-flex text-gray-600">
+            <div class="text-sm mr-2">Posted by {{ author }}</div>
+            <div class="text-sm">{{ datetime }}</div>
+          </div>
+          <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
+                             @click="showPostEditor = !showPostEditor"
+                             v-if=" authorId === authUserId"/>
         </div>
 
-        <div class="divide-y divide-gray-400">
+
+        <div class="divide-y divide-gray-400" :class="{hidden: showPostEditor}">
           <!--    Title     -->
           <div class="font-bold text-xl mb-2">{{ title }}</div>
           <!--    Content    -->
           <div v-html="content" class="pt-2"></div>
+        </div>
+
+        <div :class="{hidden: !showPostEditor}">
+          <label class="px-4 mt-2">
+            <input type="text" v-model="editTitle" class="font-bold text-xl focus:outline-none">
+          </label>
+          <WysiwygEditor class="w-full" ref="post-editor"
+                         :initial-content="content" v-if="authorId === authUserId">
+            <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
+              <button
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+          focus:outline-none focus:shadow-outline" type="button"
+                @click="submitPost(editTitle, editContent, id)">
+                Done
+              </button>
+            </div>
+          </WysiwygEditor>
         </div>
 
       </div>
@@ -65,6 +88,7 @@ import Editor from '@/components/WysiwygEditor'
 import WysiwygEditor from '@/components/WysiwygEditor'
 import { EventBus } from '@/helpers/EventBus'
 import SubmitReplyMixin from '@/helpers/SubmitReplyMixin'
+import SubmitPostMixin from '@/helpers/SubmitPostMixin'
 
 const xss = require('xss')
 const moment = require('moment')
@@ -72,37 +96,34 @@ const moment = require('moment')
 export default {
   name: 'PostDetails',
 
-  mixins: [SubmitReplyMixin],
+  mixins: [SubmitReplyMixin, SubmitPostMixin],
+
   components: {
     WysiwygEditor,
     Reply,
     CircularProgress,
     Editor
   },
+
   data () {
     return {
       id: 0,
       title: '',
       content: '',
       author: '',
+      authorId: 0,
       datetime: '',
       rawReplies: [],
-      showCommentEditor: false
+      showCommentEditor: false,
+      showPostEditor: false,
+      editTitle: '',
     }
   },
 
   beforeMount () {
     this.getPostDetails()
-      .then((response) => {
-        this.id = response.data.id
-        this.title = response.data.title
-        this.content = xss(response.data.content)
-        this.author = response.data.nickname
-        this.datetime = moment(response.data['updated']).fromNow()
-        this.rawReplies = response.data.reply
-      }).catch(err => console.error('Get Post Details failed: ', err))
-
     EventBus.$on('post-update-reply', this.getPostReplies)
+    EventBus.$on('post-update-details', this.getPostDetails)
   },
 
   computed: {
@@ -117,19 +138,36 @@ export default {
       }
 
     },
+
     nestedReplies () {
       let nestedReplies = this.nestReplies(this.rawReplies)
+      // Show most recent thread first
       nestedReplies.sort(((a, b) => {
         return b.datetime.diff(a.datetime)
       }))
       return nestedReplies
+    },
+
+    editContent () {
+      return this.$refs['post-editor'].editor.getHTML()
     }
   },
 
   methods: {
 
     getPostDetails () {
-      return this.$http.get('/api/v1/post/' + this.$route.params.id)
+      this.$http.get('/api/v1/post/' + this.$route.params.id)
+        .then((response) => {
+          this.id = response.data.id
+          this.title = response.data.title
+          this.content = xss(response.data.content)
+          this.author = response.data.nickname
+          this.authorId = response.data.userId
+          this.datetime = moment(response.data['updated']).fromNow()
+          this.rawReplies = response.data.reply
+          this.editTitle = this.title
+          this.showPostEditor = false
+        }).catch(err => console.error('Get Post Details failed: ', err))
     },
 
     getPostReplies () {
