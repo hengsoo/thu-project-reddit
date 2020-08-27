@@ -36,12 +36,14 @@
 <script>
 export default {
   name: 'Navigator',
-  props: {
-    isAuth: Boolean,
-  },
   data () {
     return {
       showMenu: false,
+    }
+  },
+  computed:{
+    isAuth (){
+      return this.$store.state.isAuth
     }
   }
 }

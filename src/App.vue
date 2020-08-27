@@ -25,7 +25,7 @@
     </Navigator>
 
     <keep-alive include="Home">
-      <router-view @authenticated="validateAuth" v-bind="props"/>
+      <router-view @authenticated="validateAuth"/>
     </keep-alive>
 
 
@@ -40,22 +40,12 @@ export default {
 
   components: { Navigator },
 
-  data () {
-    return {
-      isAuth: false,
-      userData: {}
-    }
-  },
-
   computed: {
     userNickname () {
-      return this.userData?.nickname
+      return this.$store.state.userData.nickname
     },
-
-    props () {
-      if (this.$route.name === 'Profile') {
-        return { userData: this.userData }
-      }
+    isAuth () {
+      return this.$store.state.isAuth
     }
   },
 
@@ -75,16 +65,17 @@ export default {
   methods: {
 
     validateAuth () {
-      this.isAuth = true
+      this.$store.commit('setIsAuth', true)
       this.$http.get('/api/v1/user').then(response => {
-        this.userData = response.data
+        this.$store.commit('setUserData', response.data)
       }).catch(
         error => console.error('Validate Auth error: ', error)
       )
     },
 
     invalidateAuth () {
-      this.isAuth = false
+      this.$store.commit('setIsAuth', false)
+      this.$store.commit('setUserData', {})
       this.$cookie.delete('user-token')
     },
 

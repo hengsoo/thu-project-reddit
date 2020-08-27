@@ -12,7 +12,7 @@
           <p v-text="reply.datetime"></p>
         </div>
         <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
-             @click="toggleEditorState(reply.id, true)"/>
+             @click="toggleEditorState(reply.id, true)" v-if="reply.userId === $store"/>
       </div>
 
 
