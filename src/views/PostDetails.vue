@@ -3,7 +3,7 @@
     <!--  Post    -->
     <div class="w-full md:mr-20 rounded-t-lg shadow-lg bg-white mt-2">
 
-      <CircularProgress v-if="content === ''"/>
+      <CircularProgress v-if="title === ''"/>
 
       <div v-else class="px-6 py-4">
 
