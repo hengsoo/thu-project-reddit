@@ -15,9 +15,9 @@
       </div>
 
       <div class="w-1/4 mt-2">
-        <div class="bg-white rounded shadow-md mb-4 px-4 py-2">
+        <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>Favourite</h2>
-          <p v-if="favourites.length === 0 || favourites === null">No record</p>
+          <p v-if="favourites.length === 0">No record</p>
           <div v-else v-for="favourite in favourites" class="divide-y flex flex-col" >
             <a @click="$router.push(favourite.path)" class="my-1 cursor-pointer"> {{ favourite.title }} </a>
           </div>
@@ -25,7 +25,7 @@
 
         <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>History</h2>
-          <p v-if="histories.length">No record</p>
+          <p v-if="histories.length === 0">No record</p>
           <div v-else v-for="history in histories" class="divide-y flex flex-col" >
             <a @click="$router.push(history.path)" class="my-1 cursor-pointer"> {{ history.title }} </a>
           </div>
@@ -59,10 +59,12 @@ export default {
       return this.$store.state.userData.id
     },
     histories () {
-      return JSON.parse(this.$cookie.get('user-history'))
+      let histories = JSON.parse(this.$cookie.get('user-history'))
+      return histories === null ? [] : histories
     },
     favourites () {
-      return JSON.parse(this.$cookie.get('user-favourite'))
+      let favourites = JSON.parse(this.$cookie.get('user-favourite'))
+      return favourites === null ? [] : favourites
     }
   },
 
