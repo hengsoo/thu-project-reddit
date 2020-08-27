@@ -72,7 +72,7 @@ const moment = require('moment')
 export default {
   name: 'PostDetails',
 
-  mixins:[SubmitReplyMixin],
+  mixins: [SubmitReplyMixin],
   components: {
     WysiwygEditor,
     Reply,
@@ -106,19 +106,23 @@ export default {
   },
 
   computed: {
-    commentLabel(){
+    commentLabel () {
       const label = 'Comment'
       const commentCount = this.rawReplies.length
 
-      if ( commentCount > 1 ){
+      if (commentCount > 1) {
         return label + 's' + ` (${commentCount})`
-      }else{
+      } else {
         return label + ` (${commentCount})`
       }
 
     },
     nestedReplies () {
-      return this.nestReplies(this.rawReplies)
+      let nestedReplies = this.nestReplies(this.rawReplies)
+      nestedReplies.sort(((a, b) => {
+        return b.datetime.diff(a.datetime)
+      }))
+      return nestedReplies
     }
   },
 
@@ -148,7 +152,7 @@ export default {
           // Sanitize content
           reply['content'] = xss(reply['content'])
           // Parse Updated time
-          reply['datetime'] = moment(reply['updated']).fromNow()
+          reply['datetime'] = moment(reply['updated'])
 
           reply['children'] = this.nestReplies(replies, reply.id)
           nestedData.push(reply)

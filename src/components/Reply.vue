@@ -9,17 +9,17 @@
         <div class="inline-flex text-sm text-gray-700">
           <p v-text="reply.nickname" class="mr-2 hover:underline cursor-pointer"
              @click="$router.push('/user/'+ reply.userId ).catch(err => {})"></p>
-          <p v-text="reply.datetime"></p>
+          <p v-text="reply.datetime.fromNow()"></p>
         </div>
         <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
-             @click="toggleEditorState(reply.id, true)" v-if="reply.userId === $store"/>
+             @click="toggleEditorState(reply.id, true)" v-if="reply.userId === authUserId"/>
       </div>
 
 
       <div v-html="reply.content" :ref="'reply-content-' + reply.id"></div>
 
       <WysiwygEditor class="w-full hidden" :ref="'reply-edit-editor-' + reply.id"
-                     :initial-content="reply.content">
+                     :initial-content="reply.content" v-if="reply.userId === authUserId">
         <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
@@ -81,8 +81,10 @@ export default {
     },
   },
 
-  methods: {
-
+  computed:{
+    authUserId (){
+      return this.$store.state.userData.id
+    }
   },
 
   mixins: [SubmitReplyMixin]
