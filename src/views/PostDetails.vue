@@ -42,9 +42,16 @@
     <div class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <div class="inline-flex justify-between w-full items-baseline">
 
-        <h2 class="text-left text-lg italic">
-          {{ commentLabel }}
-        </h2>
+        <div class="inline-flex items-baseline">
+          <h2 class="text-left text-lg italic mr-2">
+            {{ commentLabel }}
+          </h2>
+
+          <p class="text-left text-sm italic cursor-pointer text-gray-600
+            hover:underline tracking-tight" @click="showAuthorCommentOnly = !showAuthorCommentOnly">
+            {{ commentControlLabel }}
+          </p>
+        </div>
 
         <p class="text-blue-500 text-sm cursor-pointer font-semibold"
            @click="showCommentEditor = !showCommentEditor">
@@ -66,7 +73,7 @@
         </WysiwygEditor>
 
         <div>
-          <Reply :replies="nestedReplies"/>
+          <Reply :replies="nestedReplies" :post-user-id="authorId" :show-author-comment-only="showAuthorCommentOnly"/>
         </div>
       </div>
 
@@ -113,6 +120,7 @@ export default {
       rawReplies: [],
       showCommentEditor: false,
       showPostEditor: false,
+      showAuthorCommentOnly: false
     }
   },
 
@@ -133,7 +141,15 @@ export default {
       } else {
         return label + ` (${commentCount})`
       }
+    },
 
+    commentControlLabel(){
+      if ( this.showAuthorCommentOnly === false){
+        return 'Show author only'
+      }
+      else{
+        return 'Show all'
+      }
     },
 
     nestedReplies () {
@@ -155,15 +171,15 @@ export default {
     getPostDetails () {
       this.requestPostDetails()
         .then((response) => {
-        this.id = response.data.id
-        this.title = response.data.title
-        this.content = xss(response.data.content)
-        this.author = response.data.nickname
-        this.authorId = response.data.userId
-        this.datetime = moment(response.data['updated']).fromNow()
-        this.rawReplies = response.data.reply
-        this.showPostEditor = false
-      }).catch(err => console.error('Get Post Details failed: ', err))
+          this.id = response.data.id
+          this.title = response.data.title
+          this.content = xss(response.data.content)
+          this.author = response.data.nickname
+          this.authorId = response.data.userId
+          this.datetime = moment(response.data['updated']).fromNow()
+          this.rawReplies = response.data.reply
+          this.showPostEditor = false
+        }).catch(err => console.error('Get Post Details failed: ', err))
     },
 
     getPostReplies () {

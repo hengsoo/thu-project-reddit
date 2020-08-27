@@ -2,7 +2,7 @@
 
   <div>
 
-    <div v-for="reply in replies" class="py-1">
+    <div v-for="reply in replies" v-if="(reply.userId === postUserId || !showAuthorCommentOnly)" class="py-1">
 
       <!--   Reply's info   -->
       <div class="inline-flex justify-between w-full">
@@ -48,7 +48,8 @@
         </div>
       </WysiwygEditor>
 
-      <Reply v-if="reply.children.length > 0" :replies="reply.children" class="pl-5 border-l-2"/>
+      <Reply v-if="reply.children.length > 0" :replies="reply.children" :post-user-id="postUserId"
+             :show-author-comment-only="showAuthorCommentOnly" class="pl-5 border-l-2"/>
 
     </div>
   </div>
@@ -80,6 +81,14 @@ export default {
       type: Array,
       required: true
     },
+    postUserId:{
+      type: Number,
+      required: true
+    },
+    showAuthorCommentOnly:{
+      type: Boolean,
+      default: false
+    }
   },
 
   mixins: [SubmitReplyMixin]
