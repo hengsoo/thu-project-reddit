@@ -38,7 +38,8 @@ const routes = [
     path: '/user/:id',
     name: 'User',
     component: UserDetails
-  }
+  },
+  { path: '*', redirect: { name: 'Home' }}
 ]
 
 const router = new VueRouter({

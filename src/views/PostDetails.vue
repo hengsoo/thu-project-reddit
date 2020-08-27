@@ -32,7 +32,7 @@
         </div>
 
         <div :class="{hidden: !showPostEditor}" v-if="authorId === authUserId">
-          <PostForm :post-id="id" :initial-content="content" :initial-title="title"/>
+          <PostForm :post-id="id" :initial-content="content" :initial-title="title" button-label="Done"/>
         </div>
 
       </div>

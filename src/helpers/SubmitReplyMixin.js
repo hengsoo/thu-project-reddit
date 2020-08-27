@@ -15,11 +15,20 @@ let SubmitReplyMixin = {
 
       let replyEditor = this.$refs[reference + replyId]
 
+      // If component is rendered in a v-for, an array is returned
+      if ( !Array.isArray(replyEditor)){
+        replyEditor = [replyEditor]
+      }
+
       return replyEditor[0]
     },
 
     findReplyContent (replyId) {
       let replyContent = this.$refs['reply-content-' + replyId]
+
+      if ( !Array.isArray(replyContent)){
+        replyContent = [replyContent]
+      }
 
       return replyContent[0]
     },
