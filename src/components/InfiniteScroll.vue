@@ -35,7 +35,11 @@
         <span
           class="inline-flex items-center bg-gray-200 rounded-full px-3 pr-4 py-1 text-base font-bold
             text-gray-700 mr-2 mb-2 cursor-pointer hover:bg-gray-100"
-          @click="$router.push('/user/'+ post.userId ).catch(err => {})">
+          @click="$router.push(
+            { path: `/user/${post.userId}`,
+              query:{username: post.nickname}
+            }).catch(err => {})"
+        >
             <!--   Icon    -->
             <svg viewBox="0 0 20 20" fill="currentColor" class="user w-6 h-6 mr-1">
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
@@ -168,7 +172,6 @@ export default {
     scroll () {
       document.onscroll = () => {
         if (this.$route.name !== this.routeName) return
-
         if (this.queryParams.page * this.queryParams.size >= this.totalPost) {
           this.endOfAllPosts = true
           return
