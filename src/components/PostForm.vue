@@ -1,23 +1,29 @@
 <template>
-  <div class="md:mr-20">
-    <label class="px-4 mt-2">
-      <input type="text" v-model="postTitle" placeholder="Make a title!"
-             class="font-bold text-xl focus:outline-none">
-    </label>
 
-    <WysiwygEditor class="w-full" ref="post-editor"
-                   :placeholder="`What's on your mind, ${nickname}`">
-      <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
-        <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+    <div class="w-full bg-white rounded-lg divide-y divide-gray-400 shadow-md">
+
+      <label>
+        <input type="text" v-model="postTitle" placeholder="Make a title!"
+               class="font-bold text-xl focus:outline-none pl-4 my-2">
+      </label>
+
+      <div class="pt-1">
+        <WysiwygEditor class="w-full post-editor" ref="post-editor"
+                       :placeholder="`What's on your mind, ${nickname}`" :initial-content="initialContent">
+          <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
           focus:outline-none focus:shadow-outline" type="button"
-          @click="submitPost(postTitle, postContent)">
-          Done
-        </button>
+              @click="submitPost(postTitle, postContent, postId)">
+              Post
+            </button>
+          </div>
+        </WysiwygEditor>
       </div>
-    </WysiwygEditor>
 
-  </div>
+
+    </div>
+
 </template>
 
 <script>
@@ -25,24 +31,43 @@ import { EventBus } from '@/helpers/EventBus'
 import WysiwygEditor from '@/components/WysiwygEditor'
 
 export default {
-  name: 'CreatePostForm',
+  name: 'PostForm',
 
-  components:{
+  components: {
     WysiwygEditor
   },
 
-  data(){
+  data () {
     return {
       postTitle: ''
     }
   },
 
-  computed:{
+  props: {
+    initialTitle: {
+      type: String,
+      default: ''
+    },
+    initialContent: {
+      type: String,
+      default: ''
+    },
+    postId: {
+      type: Number,
+      default: null
+    }
+  },
+
+  mounted () {
+    this.postTitle = this.initialTitle
+  },
+
+  computed: {
     nickname () {
       return this.$store.state.userData.nickname
     },
 
-    postEditor() {
+    postEditor () {
       return this.$refs['post-editor'].editor
     },
 
@@ -83,3 +108,8 @@ export default {
 }
 </script>
 
+<style scoped>
+.post-editor {
+  box-shadow: none;
+}
+</style>

@@ -8,15 +8,16 @@
       <div class="inline-flex justify-between w-full">
         <div class="inline-flex text-sm text-gray-700">
           <p v-text="reply.nickname" class="mr-2 hover:underline cursor-pointer"
-             @click="$router.push('/user/'+ reply.userId ).catch(err => {})"></p>
+             @click="$router.push(
+               { path: `/user/${reply.userId}`,query:{username: reply.username}}).catch(err => {})"></p>
           <p v-text="reply.datetime.fromNow()"></p>
         </div>
         <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
-             @click="toggleEditorState(reply.id, true)" v-if="reply.userId === authUserId"/>
+                           @click="toggleEditorState(reply.id, true)" v-if="reply.userId === authUserId"/>
       </div>
 
 
-      <div v-html="reply.content" :ref="'reply-content-' + reply.id"></div>
+      <div v-html="reply.content" class="overflow-auto" :ref="'reply-content-' + reply.id"></div>
 
       <WysiwygEditor class="w-full hidden" :ref="'reply-edit-editor-' + reply.id"
                      :initial-content="reply.content" v-if="reply.userId === authUserId">

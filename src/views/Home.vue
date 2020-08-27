@@ -1,6 +1,9 @@
 <template>
   <div class="container p-5 mx-auto flex flex-col items-center">
-    <PostForm/>
+    <div class="w-full md:mr-20 max-w-lg">
+      <PostForm/>
+    </div>
+
     <InfiniteScroll route-name="Home" ref="post-board"/>
   </div>
 

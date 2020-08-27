@@ -9,7 +9,13 @@
 
         <div class="inline-flex justify-between w-full">
           <div class="inline-flex text-gray-600">
-            <div class="text-sm mr-2">Posted by {{ author }}</div>
+            <div class="text-sm mr-2">Posted by
+              <span class="hover:underline cursor-pointer"
+                    @click="$router.push(
+                      { path: `/user/${authorId}`,query:{username: author}}).catch(err => {})">
+                {{ author }}
+              </span>
+            </div>
             <div class="text-sm">{{ datetime }}</div>
           </div>
           <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
@@ -25,21 +31,8 @@
           <div v-html="content" class="pt-2"></div>
         </div>
 
-        <div :class="{hidden: !showPostEditor}">
-          <label class="px-4 mt-2">
-            <input type="text" v-model="editTitle" class="font-bold text-xl focus:outline-none">
-          </label>
-          <WysiwygEditor class="w-full" ref="post-editor"
-                         :initial-content="content" v-if="authorId === authUserId">
-            <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
-              <button
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
-          focus:outline-none focus:shadow-outline" type="button"
-                @click="submitPost(editTitle, editContent, id)">
-                Done
-              </button>
-            </div>
-          </WysiwygEditor>
+        <div :class="{hidden: !showPostEditor}" v-if="authorId === authUserId">
+          <PostForm :post-id="id" :initial-content="content" :initial-title="title"/>
         </div>
 
       </div>
@@ -59,21 +52,24 @@
         </p>
       </div>
 
-      <WysiwygEditor class="w-full" ref="reply-editor-0" :class="{hidden: !showCommentEditor}"
-                     placeholder="Add a comment...">
-        <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+      <div class="pt-1">
+        <WysiwygEditor class="w-full" ref="reply-editor-0" :class="{hidden: !showCommentEditor}"
+                       placeholder="Add a comment...">
+          <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
+            <button
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
           focus:outline-none focus:shadow-outline" type="button"
-            @click="submitReply(id, 0)">
-            Add Comment
-          </button>
-        </div>
-      </WysiwygEditor>
+              @click="submitReply(id, 0)">
+              Add Comment
+            </button>
+          </div>
+        </WysiwygEditor>
 
-      <div>
-        <Reply :replies="nestedReplies"/>
+        <div>
+          <Reply :replies="nestedReplies"/>
+        </div>
       </div>
+
     </div>
 
 
@@ -88,7 +84,7 @@ import Editor from '@/components/WysiwygEditor'
 import WysiwygEditor from '@/components/WysiwygEditor'
 import { EventBus } from '@/helpers/EventBus'
 import SubmitReplyMixin from '@/helpers/SubmitReplyMixin'
-import SubmitPostMixin from '@/helpers/SubmitPostMixin'
+import PostForm from '@/components/PostForm'
 
 const xss = require('xss')
 const moment = require('moment')
@@ -96,9 +92,10 @@ const moment = require('moment')
 export default {
   name: 'PostDetails',
 
-  mixins: [SubmitReplyMixin, SubmitPostMixin],
+  mixins: [SubmitReplyMixin],
 
   components: {
+    PostForm,
     WysiwygEditor,
     Reply,
     CircularProgress,
@@ -116,7 +113,6 @@ export default {
       rawReplies: [],
       showCommentEditor: false,
       showPostEditor: false,
-      editTitle: '',
     }
   },
 
@@ -147,10 +143,6 @@ export default {
         return b.datetime.diff(a.datetime)
       }))
       return nestedReplies
-    },
-
-    editContent () {
-      return this.$refs['post-editor'].editor.getHTML()
     }
   },
 
@@ -166,7 +158,6 @@ export default {
           this.authorId = response.data.userId
           this.datetime = moment(response.data['updated']).fromNow()
           this.rawReplies = response.data.reply
-          this.editTitle = this.title
           this.showPostEditor = false
         }).catch(err => console.error('Get Post Details failed: ', err))
     },

@@ -1,6 +1,5 @@
-<!--suppress ALL -->
 <template>
-  <div class="bg-white rounded shadow-md my-2">
+  <div class="bg-white rounded shadow-md ">
 
     <div class="editor px-4">
 
