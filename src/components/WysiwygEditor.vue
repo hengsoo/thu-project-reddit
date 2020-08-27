@@ -162,7 +162,7 @@ export default {
           }),
         ],
 
-        content: this.content,
+        content: this.initialContent,
       }),
 
     }
