@@ -24,7 +24,7 @@
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
           focus:outline-none focus:shadow-outline" type="button"
-            @click="submitReply(reply.postId, reply.id)">
+            @click="submitReply(reply.postId, reply.id, true)">
             Done
           </button>
         </div>

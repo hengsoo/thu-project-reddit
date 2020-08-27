@@ -18,9 +18,7 @@ let SubmitReplyMixin = {
 
     findReplyContent (replyId) {
       let replyContent = this.$refs['reply-content-' + replyId]
-
-      console.log(replyContent[0])
-
+      
       if (!Array.isArray(replyContent)) {
         replyContent = [replyContent]
       }
@@ -28,19 +26,27 @@ let SubmitReplyMixin = {
       return replyContent[0]
     },
 
-    submitReply (postId, replyId) {
+    submitReply (postId, replyId, edit = false) {
 
-      const replyEditor = this.findReplyEditor(replyId)
+      const replyEditor = this.findReplyEditor(replyId, edit)
 
       const content = replyEditor.editor.getHTML()
 
-      this.$http.post('/api/v1/post/' + postId + '/reply', {
+      let url = '/api/v1/post/' + postId + '/reply'
+      let submitMethod = this.$http.post
+
+      if (edit === true) {
+        url += '/' + replyId
+        submitMethod = this.$http.put
+      }
+
+      submitMethod(url, {
         replyId: replyId,
         content: content
       })
         .then(res => {
           EventBus.$emit('post-update-reply')
-          this.toggleEditorState(replyId)
+          this.toggleEditorState(replyId, edit)
         })
         .catch(error => console.error('Submit Reply Failed: ', error))
     },
