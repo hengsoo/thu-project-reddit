@@ -15,19 +15,11 @@ let SubmitReplyMixin = {
 
       let replyEditor = this.$refs[reference + replyId]
 
-      if (!Array.isArray(replyEditor)) {
-        replyEditor = [replyEditor]
-      }
-
       return replyEditor[0]
     },
 
     findReplyContent (replyId) {
       let replyContent = this.$refs['reply-content-' + replyId]
-
-      if (!Array.isArray(replyContent)) {
-        replyContent = [replyContent]
-      }
 
       return replyContent[0]
     },
