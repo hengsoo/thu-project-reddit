@@ -8,6 +8,7 @@
       <div v-else class="px-6 py-4">
 
         <div class="inline-flex justify-between w-full">
+
           <div class="inline-flex text-gray-600">
             <div class="text-sm mr-2">Posted by
               <span class="hover:underline cursor-pointer"
@@ -18,9 +19,17 @@
             </div>
             <div class="text-sm">{{ datetime }}</div>
           </div>
-          <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
-                             @click="showPostEditor = !showPostEditor"
-                             v-if=" authorId === authUserId"/>
+
+          <div class="inline-flex">
+            <font-awesome-icon :icon="[isFavourite, 'heart']" class="text-gray-400 cursor-pointer mr-4"
+                               @click="toggleFavourite"
+            />
+
+            <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
+                               @click="showPostEditor = !showPostEditor"
+                               v-if=" authorId === authUserId"/>
+          </div>
+
         </div>
 
 
@@ -92,6 +101,11 @@ import WysiwygEditor from '@/components/WysiwygEditor'
 import { EventBus } from '@/helpers/EventBus'
 import SubmitReplyMixin from '@/helpers/SubmitReplyMixin'
 import PostForm from '@/components/PostForm'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faHeart as fasHeart } from '@fortawesome/free-solid-svg-icons'
+import { faHeart as farHeart } from '@fortawesome/free-regular-svg-icons'
+
+library.add(farHeart, fasHeart)
 
 const xss = require('xss')
 const moment = require('moment')
@@ -120,13 +134,14 @@ export default {
       rawReplies: [],
       showCommentEditor: false,
       showPostEditor: false,
-      showAuthorCommentOnly: false
+      showAuthorCommentOnly: false,
+      // 'far' is unfavourite icon, 'fas' is favourite
+      isFavourite: 'far'
     }
   },
 
   beforeMount () {
     this.getPostDetails()
-
     EventBus.$on('post-update-reply', this.getPostReplies)
     EventBus.$on('post-update-details', this.getPostDetails)
   },
@@ -143,11 +158,10 @@ export default {
       }
     },
 
-    commentControlLabel(){
-      if ( this.showAuthorCommentOnly === false){
+    commentControlLabel () {
+      if (this.showAuthorCommentOnly === false) {
         return 'Show author only'
-      }
-      else{
+      } else {
         return 'Show all'
       }
     },
@@ -164,14 +178,77 @@ export default {
 
   methods: {
 
-    saveToCache (cookieName){
-      const record = {title: this.title, path: `/post/${this.id}`}
+    setIsFavourite () {
+
+      let cache = JSON.parse(this.$cookie.get('user-favourite'))
+
+      console.log(cache)
+
+      if (cache !== null) {
+        console.log(`/post/${this.id}`)
+        let index = cache.map((e) => {
+          return e.path
+        }).indexOf(`/post/${this.id}`)
+        console.log(index)
+        this.isFavourite = index !== -1 ? 'fas' : 'far'
+      } else {
+        this.isFavourite = 'far'
+      }
+
+    },
+
+    toggleFavourite () {
+      // If favourite, change to unfavourite
+      if (this.isFavourite === 'fas') {
+        this.isFavourite = 'far'
+        this.removeFromCache('user-favourite')
+      }
+      // Else unfavourite, change to favourite
+      else {
+        this.isFavourite = 'fas'
+        this.saveToCache('user-favourite')
+      }
+    },
+
+    removeFromCache (cookieName) {
 
       let cache = JSON.parse(this.$cookie.get(cookieName))
 
-      if ( cache === null ) cache = [record]
-      else {
-        cache.unshift(record)
+      if (cache === null) {
+        return
+      } else {
+        let index = cache.map((e) => {
+          return e.path
+        }).indexOf(`/post/${this.id}`)
+        if (index !== -1) {
+          cache.splice(index, 1)
+        } else {
+          return
+        }
+      }
+
+      cache = JSON.stringify(cache)
+
+      this.$cookie.set(cookieName, cache, { expires: '10m' })
+    },
+
+    saveToCache (cookieName) {
+      const record = {
+        title: this.title,
+        path: `/post/${this.id}`
+      }
+
+      let cache = JSON.parse(this.$cookie.get(cookieName))
+
+      if (cache === null) {
+        cache = [record]
+      } else {
+        let index = cache.map((e) => {
+          return e.path
+        }).indexOf(`/post/${this.id}`)
+        if (index === -1) {
+          cache.unshift(record)
+        }
       }
 
       cache = JSON.stringify(cache)
@@ -195,6 +272,7 @@ export default {
           this.rawReplies = response.data.reply
           this.showPostEditor = false
 
+          this.setIsFavourite()
           this.saveToCache('user-history')
         }).catch(err => console.error('Get Post Details failed: ', err))
     },
