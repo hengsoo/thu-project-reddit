@@ -17,7 +17,7 @@
         <div class="max-h-sm overflow-hidden">
           <!--    If content has both thumbnail and summary     -->
           <div v-if="post.thumbnail" class="flex">
-            <div class="w-3/4 truncate" v-html="post.summary" v-if="post.summary"></div>
+            <div class="w-3/4" v-html="post.summary" v-if="post.summary"></div>
             <div class="w-1/4" v-html="post.thumbnail" v-if="post.summary"></div>
             <!--    Center thumbnail if it doesn't have summary     -->
             <div class="w-full thumbnail-only" v-html="post.thumbnail" v-else></div>

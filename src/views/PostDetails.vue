@@ -148,22 +148,26 @@ export default {
 
   methods: {
 
+    requestPostDetails () {
+      return this.$http.get('/api/v1/post/' + this.$route.params.id)
+    },
+
     getPostDetails () {
-      this.$http.get('/api/v1/post/' + this.$route.params.id)
+      this.requestPostDetails()
         .then((response) => {
-          this.id = response.data.id
-          this.title = response.data.title
-          this.content = xss(response.data.content)
-          this.author = response.data.nickname
-          this.authorId = response.data.userId
-          this.datetime = moment(response.data['updated']).fromNow()
-          this.rawReplies = response.data.reply
-          this.showPostEditor = false
-        }).catch(err => console.error('Get Post Details failed: ', err))
+        this.id = response.data.id
+        this.title = response.data.title
+        this.content = xss(response.data.content)
+        this.author = response.data.nickname
+        this.authorId = response.data.userId
+        this.datetime = moment(response.data['updated']).fromNow()
+        this.rawReplies = response.data.reply
+        this.showPostEditor = false
+      }).catch(err => console.error('Get Post Details failed: ', err))
     },
 
     getPostReplies () {
-      this.getPostDetails()
+      this.requestPostDetails()
         .then((response) => {
           this.rawReplies = response.data.reply
         }).catch(err => console.error('Get Post Replies failed: ', err))

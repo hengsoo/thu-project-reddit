@@ -28,7 +28,7 @@ let SubmitReplyMixin = {
 
       const replyEditor = this.findReplyEditor(replyId, edit)
 
-      const content = replyEditor.editor.getHTML()
+      const content = replyEditor.editor.getHTML().replace(/<p>\s*<\/p>/g, "<br>");
 
       let url = '/api/v1/post/' + postId + '/reply'
       let submitMethod = this.$http.post

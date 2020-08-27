@@ -17,7 +17,7 @@
       </div>
 
 
-      <div v-html="reply.content" class="overflow-auto" :ref="'reply-content-' + reply.id"></div>
+      <div v-html="reply.content" class="overflow-x-auto" :ref="'reply-content-' + reply.id"></div>
 
       <WysiwygEditor class="w-full hidden" :ref="'reply-edit-editor-' + reply.id"
                      :initial-content="reply.content" v-if="reply.userId === authUserId">

@@ -78,7 +78,7 @@ export default {
     },
 
     postContent () {
-      return this.postEditor.getHTML()
+      return this.postEditor.getHTML().replace(/<p>\s*<\/p>/g, "<br>");
     }
   },
 

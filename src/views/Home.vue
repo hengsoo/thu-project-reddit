@@ -11,7 +11,6 @@
 
 <script>
 import InfiniteScroll from '@/components/InfiniteScroll'
-import SubmitPostMixin from '@/helpers/SubmitPostMixin'
 import WysiwygEditor from '@/components/WysiwygEditor'
 import { EventBus } from '@/helpers/EventBus'
 import PostForm from '@/components/PostForm'
@@ -29,8 +28,6 @@ export default {
       this.$refs['post-board'].refreshPostBoard()
     }
   },
-
-  mixins: [SubmitPostMixin],
 
   beforeMount () {
     EventBus.$on('update-post-board', this.refreshPostBoard)
