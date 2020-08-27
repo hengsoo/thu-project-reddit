@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
-import store from '@/helpers/store'
+import store from '@/helpers/Store'
 import router from './router'
 import Axios from 'axios'
 import VueSweetalert2 from 'vue-sweetalert2'

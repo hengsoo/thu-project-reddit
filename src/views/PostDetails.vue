@@ -164,6 +164,21 @@ export default {
 
   methods: {
 
+    saveToCache (cookieName){
+      const record = {title: this.title, path: `/post/${this.id}`}
+
+      let cache = JSON.parse(this.$cookie.get(cookieName))
+
+      if ( cache === null ) cache = [record]
+      else {
+        cache.unshift(record)
+      }
+
+      cache = JSON.stringify(cache)
+
+      this.$cookie.set(cookieName, cache, { expires: '10m' })
+    },
+
     requestPostDetails () {
       return this.$http.get('/api/v1/post/' + this.$route.params.id)
     },
@@ -179,6 +194,8 @@ export default {
           this.datetime = moment(response.data['updated']).fromNow()
           this.rawReplies = response.data.reply
           this.showPostEditor = false
+
+          this.saveToCache('user-history')
         }).catch(err => console.error('Get Post Details failed: ', err))
     },
 
