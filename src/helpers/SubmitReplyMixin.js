@@ -18,7 +18,7 @@ let SubmitReplyMixin = {
 
     findReplyContent (replyId) {
       let replyContent = this.$refs['reply-content-' + replyId]
-      
+
       if (!Array.isArray(replyContent)) {
         replyContent = [replyContent]
       }

@@ -69,12 +69,20 @@
       — Hooray! You have reached the end. —
     </p>
 
+    <font-awesome-icon icon="arrow-circle-up"
+                       class="back-to-top" :class="{'opacity-0 invisible': !backToTop } "
+                       @click="scrollToTop"/>
+
   </div>
 
 </template>
 
 <script>
 import CircularProgress from '@/components/CircularProgress'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faArrowCircleUp)
 
 const xss = require('xss')
 const moment = require('moment')
@@ -104,7 +112,8 @@ export default {
       allPosts: [],
       totalPost: 0,
       endOfAllPosts: false,
-      isLoading: false
+      isLoading: false,
+      backToTop: false
     }
   },
 
@@ -169,8 +178,19 @@ export default {
       ).catch(error => console.error('View All Post Failed: ', error))
     },
 
+    scrollToTop(){
+      window.scrollTo({top: 0,behavior: 'smooth'})
+    },
+
     scroll () {
       document.onscroll = () => {
+
+        if (document.documentElement.scrollTop > 300) {
+          if (this.backToTop === false) this.backToTop = true
+        } else {
+          if (this.backToTop === true) this.backToTop = false
+        }
+
         if (this.$route.name !== this.routeName) return
         if (this.queryParams.page * this.queryParams.size >= this.totalPost) {
           this.endOfAllPosts = true
@@ -204,6 +224,19 @@ export default {
   max-height: 24rem;
   width: unset;
   background-size: cover;
+}
+
+.back-to-top {
+  @apply text-white fixed text-5xl bg-teal-500 p-1 rounded-full z-50 cursor-pointer;
+  right: 4rem;
+  bottom: 3rem;
+  transition-property: opacity, visibility, background-color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease-out;
+}
+
+.back-to-top:hover{
+  @apply bg-teal-400
 }
 
 </style>
