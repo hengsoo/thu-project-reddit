@@ -182,14 +182,10 @@ export default {
 
       let cache = JSON.parse(this.$cookie.get('user-favourite'))
 
-      console.log(cache)
-
       if (cache !== null) {
-        console.log(`/post/${this.id}`)
         let index = cache.map((e) => {
           return e.path
         }).indexOf(`/post/${this.id}`)
-        console.log(index)
         this.isFavourite = index !== -1 ? 'fas' : 'far'
       } else {
         this.isFavourite = 'far'
