@@ -110,7 +110,6 @@ export default {
     return {
       page: 1,
       allPosts: [],
-      totalPost: 0,
       endOfAllPosts: false,
       isLoading: false,
       backToTop: false
@@ -134,7 +133,7 @@ export default {
 
   },
 
-  mounted () {
+  beforeMount () {
     this.getAllPost()
     this.scroll()
   },
@@ -145,7 +144,9 @@ export default {
       this.$http.get('/api/v1/post', { params: this.queryParams }).then(
         response => {
 
-          this.totalPost = response.data['total']
+          if (this.queryParams.page * this.queryParams.size >= response.data['total']) {
+            this.endOfAllPosts = true
+          }
 
           response.data['posts'].forEach(
             (post) => {
@@ -172,10 +173,18 @@ export default {
 
               this.allPosts.push(post)
               this.isLoading = false
+
             }
           )
         }
       ).catch(error => console.error('View All Post Failed: ', error))
+    },
+
+    refreshPostBoard(){
+      this.allPosts = []
+      this.page = 1
+      this.endOfAllPosts = false
+      this.getAllPost()
     },
 
     scrollToTop(){
@@ -191,11 +200,7 @@ export default {
           if (this.backToTop === true) this.backToTop = false
         }
 
-        if (this.$route.name !== this.routeName) return
-        if (this.queryParams.page * this.queryParams.size >= this.totalPost) {
-          this.endOfAllPosts = true
-          return
-        }
+        if (this.$route.name !== this.routeName || this.endOfAllPosts === true) return
 
         let bottomOfWindow = document.documentElement.scrollTop + window.innerHeight
           >= document.documentElement.offsetHeight / 2

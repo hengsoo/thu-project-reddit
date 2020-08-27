@@ -122,6 +122,7 @@ export default {
 
   beforeMount () {
     this.getPostDetails()
+
     EventBus.$on('post-update-reply', this.getPostReplies)
     EventBus.$on('post-update-details', this.getPostDetails)
   },
