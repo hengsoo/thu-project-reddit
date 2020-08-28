@@ -2,7 +2,9 @@
 This is a front-end only project
 
 ## Author
-> Hengsoo @ hengsoo.sjh@gmail.com
+> 苏敬恒 Soo Jing Heng @ hengsoo.sjh@gmail.com
+
+> 2018080124 软82 
 
 ## Project setup
 ```
