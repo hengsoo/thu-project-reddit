@@ -45,6 +45,7 @@
               <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd">
               </path>
             </svg>
+
             {{ post['nickname'] }}
           </span>
 
@@ -59,6 +60,7 @@
                     1 0 101.415-1.415L11 9.586V6z"
                     clip-rule="evenodd"></path>
             </svg>
+
             {{ post['created'] }}
           </span>
       </div>
@@ -69,9 +71,9 @@
       — Hooray! You have reached the end. —
     </p>
 
-    <font-awesome-icon icon="arrow-circle-up"
-                       class="back-to-top" :class="{'opacity-0 invisible': !backToTop } "
-                       @click="scrollToTop"/>
+    <!--  Scroll to top button  -->
+    <font-awesome-icon icon="arrow-circle-up" class="back-to-top"
+                       :class="{'opacity-0 invisible': !backToTop } " @click="scrollToTop"/>
 
   </div>
 
@@ -131,11 +133,6 @@ export default {
       return params
     }
 
-  },
-
-  beforeMount () {
-    this.getAllPost()
-    this.scroll()
   },
 
   methods: {
@@ -212,7 +209,12 @@ export default {
       }
     },
 
-  }
+  },
+
+  beforeMount () {
+    this.getAllPost()
+    this.scroll()
+  },
 }
 </script>
 

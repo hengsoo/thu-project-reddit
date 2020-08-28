@@ -2,7 +2,7 @@
   <div class="bg-white rounded shadow-md ">
 
     <div class="editor px-4">
-
+      <!--  Menu bar   -->
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive, focused }">
 
         <div class="flex flex-wrap menubar justify-center h-12 sm:h-5"
@@ -80,10 +80,11 @@
           </button>
         </div>
       </editor-menu-bar>
-
+      <!--   Content Editor   -->
       <editor-content class="focus:border-none pt-2" :editor="editor"/>
     </div>
 
+    <!--  Custom buttons  -->
     <slot name="footer"></slot>
 
   </div>
@@ -107,7 +108,6 @@ import {
   Strike,
   Underline
 } from 'tiptap-extensions'
-
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faBold,
@@ -147,7 +147,6 @@ export default {
 
   data () {
     return {
-
       editor: new Editor({
         extensions: [new Blockquote(), new BulletList(), new HorizontalRule(), new Image(),
           new ListItem(), new Heading({ levels: [1, 2, 3] }), new OrderedList(),
@@ -160,15 +159,9 @@ export default {
             showOnlyCurrent: true,
           }),
         ],
-
         content: this.initialContent,
       }),
-
     }
-  },
-
-  beforeDestroy () {
-    this.editor.destroy()
   },
 
   methods: {
@@ -187,7 +180,11 @@ export default {
         }
       })
     },
-  }
+  },
+
+  beforeDestroy () {
+    this.editor.destroy()
+  },
 
 }
 </script>

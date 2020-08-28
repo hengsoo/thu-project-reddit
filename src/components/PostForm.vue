@@ -2,26 +2,29 @@
 
   <div class="w-full bg-white rounded-lg divide-y divide-gray-400 shadow-md">
 
+    <!--  Title Input  -->
     <label>
       <input type="text" v-model="postTitle" placeholder="Make a title!"
              class="font-bold text-xl focus:outline-none pl-4 my-2">
     </label>
-
+    <!--  Content Editor  -->
     <div class="pt-1">
       <WysiwygEditor class="w-full post-editor" ref="post-editor"
                      :placeholder="`What's on your mind, ${nickname}?`"
                      :initial-content="initialContentWithLineBreak">
+
         <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
           <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
-          focus:outline-none focus:shadow-outline" type="button"
-            @click="submitPost(postTitle, postContent, postId)">
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold text-sm py-1 px-3 rounded
+                     focus:outline-none focus:shadow-outline" type="button"
+              @click="submitPost(postTitle, postContent, postId)">
             {{ buttonLabel }}
           </button>
+
         </div>
+
       </WysiwygEditor>
     </div>
-
 
   </div>
 
@@ -36,12 +39,6 @@ export default {
 
   components: {
     WysiwygEditor
-  },
-
-  data () {
-    return {
-      postTitle: ''
-    }
   },
 
   props: {
@@ -63,8 +60,10 @@ export default {
     }
   },
 
-  mounted () {
-    this.postTitle = this.initialTitle
+  data () {
+    return {
+      postTitle: ''
+    }
   },
 
   computed: {
@@ -105,20 +104,24 @@ export default {
         title: title,
         content: content
       })
-        .then(res => {
+          .then(res => {
 
-          if (editPostId !== null) {
-            EventBus.$emit('post-update-details')
-          } else {
-            EventBus.$emit('update-post-board')
-            this.postEditor.clearContent()
-            this.postTitle = ''
-          }
-          
-        })
-        .catch(error => console.error('Submit Post Failed: ', error))
+            if (editPostId !== null) {
+              EventBus.$emit('post-update-details')
+            } else {
+              EventBus.$emit('update-post-board')
+              this.postEditor.clearContent()
+              this.postTitle = ''
+            }
+
+          })
+          .catch(error => console.error('Submit Post Failed: ', error))
     }
-  }
+  },
+
+  mounted () {
+    this.postTitle = this.initialTitle
+  },
 }
 </script>
 
