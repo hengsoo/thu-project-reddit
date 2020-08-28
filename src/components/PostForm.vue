@@ -111,10 +111,10 @@ export default {
             EventBus.$emit('post-update-details')
           } else {
             EventBus.$emit('update-post-board')
+            this.postEditor.clearContent()
+            this.postTitle = ''
           }
-
-          this.postEditor.clearContent()
-          this.postTitle = ''
+          
         })
         .catch(error => console.error('Submit Post Failed: ', error))
     }
