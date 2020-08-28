@@ -27,7 +27,7 @@
     </Navigator>
 
     <!--  Page View  -->
-    <router-view @authenticated="validateAuth"/>
+    <router-view/>
 
   </div>
 </template>
@@ -50,15 +50,6 @@ export default {
   },
 
   methods: {
-
-    validateAuth () {
-      this.$store.commit('setIsAuth', true)
-      this.$http.get('/api/v1/user').then(response => {
-        this.$store.commit('setUserData', response.data)
-      }).catch(
-        error => console.error('Validate Auth error: ', error)
-      )
-    },
 
     invalidateAuth () {
       this.$store.commit('setIsAuth', false)

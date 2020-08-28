@@ -8,8 +8,8 @@
           Username
         </label>
         <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="username" type="text" placeholder="Username" v-model="username" required autofocus>
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="username" type="text" placeholder="Username" v-model="username" required autofocus>
       </div>
       <!--   Password Input  -->
       <div class="mb-6">
@@ -17,17 +17,17 @@
           Password
         </label>
         <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-          id="password" type="password" placeholder="Password" v-model="password" required>
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            id="password" type="password" placeholder="Password" v-model="password" required>
         <p class="text-red-500 text-xs italic" v-text="errorMessage"></p>
       </div>
 
       <!--   Sign In Button   -->
       <div class="flex items-center justify-between">
         <button
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          type="button" @click.prevent="isLoading === false ? handleSubmit(): null"
-          :class="{disabled: isLoading}">
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="button" @click.prevent="isLoading === false ? handleSubmit(): null"
+            :class="{disabled: isLoading}">
           Sign In
         </button>
         <!--    Loading Indicator    -->
@@ -44,7 +44,10 @@ import CircularProgress from '@/components/CircularProgress'
 import Editor from '@/components/WysiwygEditor'
 
 export default {
-  components: { Editor, CircularProgress },
+  components: {
+    Editor,
+    CircularProgress
+  },
   data () {
     return {
       username: '2018080124',
@@ -69,19 +72,26 @@ export default {
                   const jwt = response.data.jwt
                   this.$cookie.set('user-token', jwt, { expires: '10m' })
                   this.$http.defaults.headers.common['Authorization'] = jwt
-                  this.$emit('authenticated')
 
-                  this.isLoading = false
+                  // Authenticate user
+                  this.$http.get('/api/v1/user').then(response => {
+                    this.$store.commit('setIsAuth', true)
+                    this.$store.commit('setUserData', response.data)
 
-                  const nextUrl = this.$route.query.nextUrl
-                  // Redirect to next Url if exists
-                  if (nextUrl != null) {
-                    this.$router.push(nextUrl.toString()).catch(() => {
-                    })
-                  } else {
-                    this.$router.push('/').catch(() => {
-                    })
-                  }
+                    this.isLoading = false
+
+                    const nextUrl = this.$route.query.nextUrl
+                    // Redirect to next Url if exists
+                    if (nextUrl != null) {
+                      this.$router.push(nextUrl.toString()).catch(() => {
+                      })
+                    } else {
+                      this.$router.push('/').catch(() => {
+                      })
+                    }
+                  }).catch(
+                      error => console.error('Validate Auth error: ', error)
+                  )
                 }
             )
             // Else display error
@@ -90,7 +100,8 @@ export default {
               this.errorMessage = error.response.data.message
             })
       }
-    }
+    },
+
   },
 
   beforeCreate () {
