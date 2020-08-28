@@ -1,9 +1,12 @@
 <template>
+
   <div class="container p-5 mx-auto flex flex-col items-center">
+
+    <!-- Create Post Form  -->
     <div class="w-full md:mr-20 max-w-lg">
       <PostForm/>
     </div>
-
+    <!--  Infinite Scroll of all posts  -->
     <InfiniteScroll route-name="Home" ref="post-board"/>
   </div>
 

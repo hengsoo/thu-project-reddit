@@ -48,8 +48,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // If path requires authentication
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const jwt = Vue.cookie.get('user-token')
+    // If token is null redirect to login page
     if (jwt == null) {
       next({
         path: '/login',

@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="bg-teal-100 ">
 
+    <!--  Navigator Bar  -->
     <Navigator :is-auth="isAuth">
 
       <router-link to="/" exact class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white mr-4 w-auto">
@@ -11,6 +12,7 @@
         My Profile
       </router-link>
 
+      <!--   Logout Button   -->
       <template v-slot:button>
         <p v-text="userNickname" class="mx-3 text-white font-semibold hidden md:block"></p>
         <a href="#"
@@ -24,8 +26,8 @@
 
     </Navigator>
 
+    <!--  Page View  -->
     <router-view @authenticated="validateAuth"/>
-
 
   </div>
 </template>
@@ -44,19 +46,6 @@ export default {
     },
     isAuth () {
       return this.$store.state.isAuth
-    }
-  },
-
-  beforeMount () {
-    this.$http.interceptors.response.use(
-      this._handleOnHttpFulfilled,
-      this._handleOnHttpError
-    )
-
-    const jwt = this.$cookie.get('user-token')
-    if (jwt != null) {
-      this.$http.defaults.headers.common['Authorization'] = jwt
-      this.validateAuth()
     }
   },
 
@@ -128,7 +117,23 @@ export default {
       }
     },
 
-  }
+  },
+
+  beforeMount () {
+    // Intercept http responses
+    this.$http.interceptors.response.use(
+        this._handleOnHttpFulfilled,
+        this._handleOnHttpError
+    )
+
+    // Check if user is authenticated
+    const jwt = this.$cookie.get('user-token')
+    if (jwt != null) {
+      this.$http.defaults.headers.common['Authorization'] = jwt
+      this.validateAuth()
+    }
+  },
+
 }
 </script>
 

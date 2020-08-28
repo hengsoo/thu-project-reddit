@@ -1,6 +1,7 @@
 <template>
   <div class="container p-5 mx-auto flex flex-col items-center divide-y divide-teal-500">
 
+    <!--  Username  -->
     <div class="justify-center w-full flex items-baseline max-w-lg">
       <h2 class="font-bold text-3xl mr-2">{{ nickname }}</h2>
       <p>@{{ username }}</p>
@@ -8,35 +9,43 @@
 
     <div class="w-full inline-flex justify-center">
       <div class="w-3/4 max-w-lg pt-2 mx-5">
+        <!--    Create Post Form    -->
         <div class="w-full md:mr-20 max-w-lg">
           <PostForm/>
         </div>
+        <!--   User's post     -->
         <InfiniteScroll route-name="Profile" :user-id="userId" ref="profile-post-board"/>
       </div>
 
       <div class="w-1/4 mt-2">
+        <!--    Favourite     -->
         <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>Favourite</h2>
+
           <p v-if="favourites.length === 0">No record</p>
+
           <div v-else class="divide-y flex flex-col">
             <div v-for="favourite in favourites">
               <a @click="$router.push(favourite.path)" class="my-1 cursor-pointer"> {{ favourite.title }} </a>
             </div>
           </div>
         </div>
-
+        <!--   History   -->
         <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>History</h2>
+
           <p v-if="histories.length === 0">No record</p>
+
           <div v-else class="divide-y flex flex-col">
             <div v-for="history in histories">
               <a @click="$router.push(history.path)" class="my-1 cursor-pointer"> {{ history.title }} </a>
             </div>
           </div>
         </div>
-      </div>
-    </div>
 
+      </div>
+
+    </div>
 
   </div>
 </template>
@@ -48,10 +57,12 @@ import { EventBus } from '@/helpers/EventBus'
 
 export default {
   name: 'Profile',
+
   components: {
     InfiniteScroll,
     PostForm
   },
+
   computed: {
     nickname () {
       return this.$store.state.userData.nickname
@@ -77,6 +88,7 @@ export default {
       this.$refs['profile-post-board'].refreshPostBoard()
     }
   },
+
   beforeMount () {
     EventBus.$on('update-post-board', this.refreshPostBoard)
   }

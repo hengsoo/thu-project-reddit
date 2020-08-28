@@ -1,10 +1,14 @@
 <template>
   <div class="container p-5 mx-auto flex flex-col items-center divide-y divide-teal-500">
+
+    <!--  User Info  -->
     <div class="text-left md:mr-20 w-full flex items-baseline max-w-lg">
       <h2 class="font-bold text-3xl mr-2">{{ username }}</h2>
       <p>&nbsp;'s profile</p>
     </div>
+    <!--  User Posts  -->
     <infinite-scroll route-name="User" :user-id="Number($route.params.id)"/>
+
   </div>
 </template>
 
@@ -13,7 +17,9 @@ import InfiniteScroll from '@/components/InfiniteScroll'
 
 export default {
   name: 'UserDetails',
+
   components: { InfiniteScroll },
+
   computed: {
     username(){
       if (  this.$route.query.username === undefined ){
@@ -24,5 +30,6 @@ export default {
       }
     }
   }
+
 }
 </script>

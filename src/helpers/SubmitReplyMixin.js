@@ -26,6 +26,7 @@ let SubmitReplyMixin = {
     findReplyContent (replyId) {
       let replyContent = this.$refs['reply-content-' + replyId]
 
+      // If component is rendered in a v-for, an array is returned
       if ( !Array.isArray(replyContent)){
         replyContent = [replyContent]
       }

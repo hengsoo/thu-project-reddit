@@ -2,14 +2,15 @@
   <div class="container p-5 mx-auto flex flex-col items-center max-w-xl">
     <!--  Post    -->
     <div class="w-full md:mr-20 rounded-t-lg shadow-lg bg-white mt-2">
-
+      <!--   Loading Indicator  -->
       <CircularProgress v-if="title === ''"/>
 
       <div v-else class="px-6 py-4">
-
+        <!--   Post Info    -->
         <div class="inline-flex justify-between w-full">
-
+          <!--    Author's Name and Datetime     -->
           <div class="inline-flex text-gray-600">
+
             <div class="text-sm mr-2">Posted by
               <span class="hover:underline cursor-pointer"
                     @click="$router.push(
@@ -17,14 +18,16 @@
                 {{ author }}
               </span>
             </div>
+
             <div class="text-sm">{{ datetime }}</div>
           </div>
 
           <div class="inline-flex">
+            <!--     Toggle favourite Button       -->
             <font-awesome-icon :icon="[isFavourite, 'heart']" class="text-pink-500 cursor-pointer mr-4"
                                @click="toggleFavourite"
             />
-
+            <!--     Toggle Edit Button       -->
             <font-awesome-icon icon="edit" class="text-gray-400 cursor-pointer"
                                @click="showPostEditor = !showPostEditor"
                                v-if=" authorId === authUserId"/>
@@ -34,12 +37,13 @@
 
 
         <div class="divide-y divide-gray-400" :class="{hidden: showPostEditor}">
-          <!--    Title     -->
+          <!--    Post Title     -->
           <div class="font-bold text-xl mb-2">{{ title }}</div>
-          <!--    Content    -->
+          <!--    Post Content    -->
           <div v-html="content" class="pt-2"></div>
         </div>
 
+        <!--   Post Editor    -->
         <div :class="{hidden: !showPostEditor}" v-if="authorId === authUserId">
           <PostForm :post-id="id" :initial-content="content" :initial-title="title" button-label="Done"/>
         </div>
@@ -48,6 +52,7 @@
 
     </div>
 
+    <!-- Comments Section  -->
     <div class="w-full mb-20 md:mr-20 bg-gray-100 rounded-b-lg px-6 py-2 divide-y">
       <div class="inline-flex justify-between w-full items-baseline">
 
@@ -56,12 +61,14 @@
             {{ commentLabel }}
           </h2>
 
+          <!--    Comments filter option      -->
           <p class="text-left text-sm italic cursor-pointer text-gray-600
             hover:underline tracking-tight" @click="showAuthorCommentOnly = !showAuthorCommentOnly">
             {{ commentControlLabel }}
           </p>
         </div>
 
+        <!--   Add comment button    -->
         <p class="text-blue-500 text-sm cursor-pointer font-semibold"
            @click="showCommentEditor = !showCommentEditor">
           Add a comment
@@ -69,6 +76,7 @@
       </div>
 
       <div class="pt-1">
+        <!--   Add comment editor    -->
         <WysiwygEditor class="w-full" ref="reply-editor-0" :class="{hidden: !showCommentEditor}"
                        placeholder="Add a comment...">
           <div class="mt-1 pb-2 mx-2 flex justify-end" slot="footer">
@@ -81,14 +89,14 @@
           </div>
         </WysiwygEditor>
 
+        <!--   Show Comments & Replies    -->
         <div>
           <Reply :replies="nestedReplies" :post-user-id="authorId" :show-author-comment-only="showAuthorCommentOnly"/>
         </div>
+
       </div>
 
     </div>
-
-
   </div>
 </template>
 
@@ -138,12 +146,6 @@ export default {
       // 'far' is unfavourite icon, 'fas' is favourite
       isFavourite: 'far'
     }
-  },
-
-  beforeMount () {
-    this.getPostDetails()
-    EventBus.$on('post-update-reply', this.getPostReplies)
-    EventBus.$on('post-update-details', this.getPostDetails)
   },
 
   computed: {
@@ -206,6 +208,7 @@ export default {
       }
     },
 
+    // Remove current title and path from cookie
     removeFromCache (cookieName) {
 
       let cache = JSON.parse(this.$cookie.get(cookieName))
@@ -228,6 +231,7 @@ export default {
       this.$cookie.set(cookieName, cache, { expires: '10m' })
     },
 
+    // Save current title and path to cookie
     saveToCache (cookieName) {
       const record = {
         title: this.title,
@@ -280,6 +284,7 @@ export default {
         }).catch(err => console.error('Get Post Replies failed: ', err))
     },
 
+    // Nest reply's reply under children prop
     nestReplies (replies, currentID = 0) {
       if (replies.length === 0) return []
 
@@ -302,10 +307,12 @@ export default {
       return nestedData
     },
 
-  }
+  },
+
+  beforeMount () {
+    this.getPostDetails()
+    EventBus.$on('post-update-reply', this.getPostReplies)
+    EventBus.$on('post-update-details', this.getPostDetails)
+  },
 }
 </script>
-
-<style>
-
-</style>
