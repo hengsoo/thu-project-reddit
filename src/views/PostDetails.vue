@@ -21,7 +21,7 @@
           </div>
 
           <div class="inline-flex">
-            <font-awesome-icon :icon="[isFavourite, 'heart']" class="text-gray-400 cursor-pointer mr-4"
+            <font-awesome-icon :icon="[isFavourite, 'heart']" class="text-pink-500 cursor-pointer mr-4"
                                @click="toggleFavourite"
             />
 

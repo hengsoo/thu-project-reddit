@@ -18,16 +18,20 @@
         <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>Favourite</h2>
           <p v-if="favourites.length === 0">No record</p>
-          <div v-else v-for="favourite in favourites" class="divide-y flex flex-col" >
-            <a @click="$router.push(favourite.path)" class="my-1 cursor-pointer"> {{ favourite.title }} </a>
+          <div v-else class="divide-y flex flex-col">
+            <div v-for="favourite in favourites">
+              <a @click="$router.push(favourite.path)" class="my-1 cursor-pointer"> {{ favourite.title }} </a>
+            </div>
           </div>
         </div>
 
         <div class="bg-white rounded shadow-md mb-4 p-2">
           <h2>History</h2>
           <p v-if="histories.length === 0">No record</p>
-          <div v-else v-for="history in histories" class="divide-y flex flex-col" >
-            <a @click="$router.push(history.path)" class="my-1 cursor-pointer"> {{ history.title }} </a>
+          <div v-else class="divide-y flex flex-col">
+            <div v-for="history in histories">
+              <a @click="$router.push(history.path)" class="my-1 cursor-pointer"> {{ history.title }} </a>
+            </div>
           </div>
         </div>
       </div>
