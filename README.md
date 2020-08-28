@@ -1,4 +1,8 @@
-# tokok
+# `tokok` thu-project-reddit
+This is a front-end only project
+
+## Author
+> Hengsoo @ hengsoo.sjh@gmail.com
 
 ## Project setup
 ```
@@ -14,11 +18,3 @@ yarn serve
 ```
 yarn build
 ```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
