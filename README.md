@@ -2,7 +2,7 @@
 This is a front-end only project
 
 ## Author
-> 苏敬恒 Soo Jing Heng @ hengsoo.sjh@gmail.com
+> Hengsoo
 
 > 2018080124 软82 
 
