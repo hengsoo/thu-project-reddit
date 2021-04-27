@@ -24,7 +24,7 @@
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "tailwindcss": "^1.7.3",
     "vue-cookie": "^1.1.4",
     "vue-sweetalert2": "^3.0.6",
